@@ -50,11 +50,11 @@ class AppBarWidget extends StatelessWidget {
         Visibility(
           visible: showDrawer != null && showDrawer != false,
           child: IconButton(
-            icon: Icon(Icons.menu_outlined),
+            icon: const Icon(Icons.menu_outlined),
             onPressed: context.read<MenuController>().controlMenu,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: defaultPadding,
         ),
         if (Responsive.isDesktop(context))
@@ -71,9 +71,9 @@ class AppBarWidget extends StatelessWidget {
           ),
         // if (!Responsive.isMobile(context))
         //   Spacer(),
-        if (!Responsive.isMobile(context)) Expanded(child: SearchField()),
+        if (!Responsive.isMobile(context)) const Expanded(child: SearchField()),
         if (!Responsive.isMobile(context))
-          SizedBox(
+          const SizedBox(
             width: defaultPadding,
           ),
         if (!Responsive.isMobile(context))
@@ -84,18 +84,18 @@ class AppBarWidget extends StatelessWidget {
               onTap: () {},
               horizontalPadding: 11,
               verticalPadding: 11),
-        Spacer(),
-        Icon(Icons.chat),
+        const Spacer(),
+        const Icon(Icons.chat),
         SizedBox(
           width: widthBetween,
         ),
-        Icon(Icons.notifications),
+        const Icon(Icons.notifications),
         SizedBox(width: widthBetween),
-        Icon(Icons.settings),
+        const Icon(Icons.settings),
         SizedBox(width: widthBetween),
         Container(
           decoration: BoxDecoration(
-              image: DecorationImage(
+              image: const DecorationImage(
                   image: AssetImage('assets/images/lady.PNG'),
                   fit: BoxFit.cover),
               borderRadius: BorderRadius.circular(
@@ -124,8 +124,8 @@ class ProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: defaultPadding),
-      padding: EdgeInsets.symmetric(
+      margin: const EdgeInsets.only(left: defaultPadding),
+      padding: const EdgeInsets.symmetric(
         horizontal: defaultPadding,
         vertical: defaultPadding / 2,
       ),
@@ -141,12 +141,12 @@ class ProfileCard extends StatelessWidget {
             height: 38,
           ),
           if (!Responsive.isMobile(context))
-            Padding(
+            const Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
+                  EdgeInsets.symmetric(horizontal: defaultPadding / 2),
               child: Text("Angelina Jolie"),
             ),
-          Icon(Icons.keyboard_arrow_down),
+          const Icon(Icons.keyboard_arrow_down),
         ],
       ),
     );
@@ -169,14 +169,14 @@ class SearchField extends StatelessWidget {
                 : Responsive.screenWidth(context) * .01,
             vertical: Responsive.screenHeight(context) * .001),
         filled: true,
-        border: OutlineInputBorder(
+        border: const OutlineInputBorder(
           borderSide: BorderSide.none,
-          borderRadius: const BorderRadius.all(Radius.circular(30)),
+          borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
         suffixIcon: Container(
-          padding: EdgeInsets.all(0),
+          padding: const EdgeInsets.all(0),
           // margin: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-          child: Icon(Icons.search),
+          child: const Icon(Icons.search),
         ),
       ),
     );

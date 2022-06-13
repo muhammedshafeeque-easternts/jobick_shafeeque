@@ -12,10 +12,10 @@ class TableData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 0, top: 0),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.only(left: 0, top: 0),
+      decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,7 +27,7 @@ class TableData extends StatelessWidget {
               dataRowHeight: Responsive.screenHeight(context) * .08,
               // minWidth: Responsive.screenWidth(context)*4,
               headingRowHeight: 0,
-              columns: [
+              columns: const [
                 DataColumn(label: SizedBox()),
                 DataColumn(label: SizedBox()),
                 DataColumn(label: SizedBox()),
@@ -38,8 +38,8 @@ class TableData extends StatelessWidget {
                 DataColumn(label: SizedBox()),
               ],
               rows: List.generate(
-                demoRecentFiles.length,
-                (index) => recentFileDataRow(demoRecentFiles[index], context),
+                tableFiles.length,
+                (index) => recentFileDataRow(tableFiles[index], context),
               ),
             ),
           ),
@@ -53,7 +53,7 @@ DataRow recentFileDataRow(TableModel fileInfo, BuildContext context) {
   return DataRow(
     color: MaterialStateColor.resolveWith(
       (states) {
-        return demoRecentFiles.indexOf(fileInfo).isEven
+        return tableFiles.indexOf(fileInfo).isEven
             // int.parse(user.fDateFormated.substring(0,2)).isEven
             ? kRowColorEven
             : kRowColorOdd;
@@ -116,7 +116,7 @@ DataRow recentFileDataRow(TableModel fileInfo, BuildContext context) {
           child: Row(
             children: [
               Container(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                     horizontal: defaultPadding / 4,
                     vertical: defaultPadding / 2),
                 decoration: BoxDecoration(

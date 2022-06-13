@@ -23,7 +23,7 @@ class Header extends StatelessWidget {
                 .copyWith(fontWeight: FontWeight.w500),
           ),
         if (!Responsive.isDesktop(context))
-          SizedBox(
+          const SizedBox(
             height: defaultPadding / 2,
           ),
         Row(
@@ -36,11 +36,11 @@ class Header extends StatelessWidget {
                     .subtitle1!
                     .copyWith(fontWeight: FontWeight.w500),
               ),
-            if (Responsive.isDesktop(context)) Spacer(),
+            if (Responsive.isDesktop(context)) const Spacer(),
             ElevatedButton.icon(
               style: TextButton.styleFrom(
-                  shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(defaultPadding),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(defaultPadding),
                   ),
                   padding: EdgeInsets.symmetric(
                     horizontal: defaultPadding,
@@ -61,19 +61,19 @@ class Header extends StatelessWidget {
                               content: SizedBox(
                                 width: Responsive.screenWidth(context) * .7,
                                 height: Responsive.screenHeight(context) * .7,
-                                child: AddNewJobScreen(),
+                                child: const AddNewJobScreen(),
                               )
                               // AddNewJobScreen()
                               )
-                          : AddNewJobScreen();
+                          : const AddNewJobScreen();
                     });
                 // Navigator.pushNamed(context, AppRoutes.addNewJobScreen);
               },
-              icon: Icon(Icons.add),
-              label: Text("Add New Job"),
+              icon: const Icon(Icons.add),
+              label: const Text("Add New Job"),
             ),
-            if (!Responsive.isDesktop(context)) Spacer(),
-            SizedBox(
+            if (!Responsive.isDesktop(context)) const Spacer(),
+            const SizedBox(
               width: 10,
             ),
             CustomIconButtonWidget(
@@ -83,7 +83,7 @@ class Header extends StatelessWidget {
               boarderRadius: 19,
               onTap: () {},
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             CustomIconButtonWidget(
@@ -93,7 +93,7 @@ class Header extends StatelessWidget {
               boarderRadius: 19,
               onTap: () {},
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             CustomIconButtonWidget(

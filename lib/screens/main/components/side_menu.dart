@@ -22,7 +22,7 @@ class SideMenu extends StatelessWidget {
                 SizedBox(width: Responsive.screenWidth(context)*.015,),
                 Container(
                   decoration: BoxDecoration(
-                      image: DecorationImage(
+                      image: const DecorationImage(
                           image: AssetImage('assets/images/lady.PNG'),
                           fit: BoxFit.cover),
                       borderRadius: BorderRadius.circular(
@@ -116,7 +116,7 @@ class DrawerListTile extends StatelessWidget {
         ),
         title: Text(
           title,
-          style: TextStyle(color: Colors.grey),
+          style: const TextStyle(color: Colors.grey),
         ),
       ),
     );

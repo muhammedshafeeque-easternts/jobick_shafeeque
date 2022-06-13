@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:jobick_shafeeque/core/base_model.dart';
+// import 'package:jobick_shafeeque/core/base_model.dart';
 
 
 class AddNewJobViewModel {
@@ -8,7 +8,7 @@ class AddNewJobViewModel {
 
 
   String? _selectedJobCategory;
-  List<String> _jobCategoryResp = ['QA Manager','IT Manager','System Analyst'];
+  final List<String> _jobCategoryResp = ['QA Manager','IT Manager','System Analyst'];
   List<DropdownMenuItem<String>>_dropdownMenuItemsJobCategory = [];
 
   void changeJobCategory(String? value) {
@@ -49,7 +49,7 @@ class AddNewJobViewModel {
 
 
   String? _selectedJobType;
-  List<String> _jobTypeResp = ['Part-Time','Full-Time','Freelancer'];
+  final List<String> _jobTypeResp = ['Part-Time','Full-Time','Freelancer'];
   List<DropdownMenuItem<String>>_dropdownMenuItemsJobType = [];
 
   void changeJobType(String? value) {

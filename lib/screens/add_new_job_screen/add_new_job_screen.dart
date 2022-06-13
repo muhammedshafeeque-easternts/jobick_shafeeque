@@ -48,7 +48,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
           if (Responsive.isDesktop(context)) buildCardFormDesktop(context),
           if (!Responsive.isDesktop(context))
             Container(
-                child: AppBarWidget(),
+                child: const AppBarWidget(),
                 color: Colors.white,
                 padding: EdgeInsets.symmetric(
                     horizontal: 14,
@@ -56,10 +56,10 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
           if (!Responsive.isDesktop(context))
             Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.all(defaultPadding),
+                padding: const EdgeInsets.all(defaultPadding),
                 child: Column(
                   children: [
-                    SizedBox(height: defaultPadding),
+                    const SizedBox(height: defaultPadding),
                     Row(
                       children: [
                         Text(
@@ -69,7 +69,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                               .titleLarge!
                               .copyWith(fontWeight: FontWeight.w500),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         CustomIconButtonWidget(
                           icon: Icons.mail,
                           backgroundColor: Colors.teal,
@@ -77,7 +77,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                           boarderRadius: 19,
                           onTap: () {},
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         CustomIconButtonWidget(
@@ -87,7 +87,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                           boarderRadius: 19,
                           onTap: () {},
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         CustomIconButtonWidget(
@@ -100,7 +100,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: defaultPadding,
                     ),
                     buildCardFormMobile(context)
@@ -117,7 +117,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
   Card buildCardFormMobile(BuildContext context) {
     return Card(
       elevation: 0,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         // side: BorderSide(color: Colors.transparent),
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(defaultPadding),
@@ -130,8 +130,8 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FieldTitleWithStar(titleName: 'Company Name'),
-              SizedBox(
+              const FieldTitleWithStar(titleName: 'Company Name'),
+              const SizedBox(
                 height: defaultPadding / 1.5,
               ),
               RoundedInputField(
@@ -147,11 +147,11 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                   return null;
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: defaultPadding * 2,
               ),
-              FieldTitleWithStar(titleName: 'Position'),
-              SizedBox(
+              const FieldTitleWithStar(titleName: 'Position'),
+              const SizedBox(
                 height: defaultPadding / 1.5,
               ),
               RoundedInputField(
@@ -167,9 +167,9 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                   return null;
                 },
               ),
-              FieldTitleWithStar(
+              const FieldTitleWithStar(
                   titleName: 'Job Category', topPadding: defaultPadding * 2),
-              SizedBox(
+              const SizedBox(
                 height: defaultPadding / 1.5,
               ),
               DropdownButtonFormField(
@@ -191,7 +191,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                   hintText: 'Choose',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       width: 0,
                       style: BorderStyle.none,
                     ),
@@ -201,9 +201,9 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                 items: _model.dropdownMenuItemsJobCategory,
                 onChanged: _model.changeJobCategory,
               ),
-              FieldTitleWithStar(
+              const FieldTitleWithStar(
                   titleName: 'Job Type', topPadding: defaultPadding * 2),
-              SizedBox(
+              const SizedBox(
                 height: defaultPadding / 1.5,
               ),
               DropdownButtonFormField(
@@ -225,7 +225,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                   hintText: 'Choose',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       width: 0,
                       style: BorderStyle.none,
                     ),
@@ -235,9 +235,9 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                 items: _model.dropdownMenuItemsJobType,
                 onChanged: _model.changeJobType,
               ),
-              FieldTitleWithStar(
+              const FieldTitleWithStar(
                   titleName: 'No. of Vacancy', topPadding: defaultPadding * 2),
-              SizedBox(
+              const SizedBox(
                 height: defaultPadding / 1.5,
               ),
               RoundedInputField(
@@ -255,9 +255,9 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                   return null;
                 },
               ),
-              FieldTitleWithStar(
+              const FieldTitleWithStar(
                   titleName: 'Posted Date', topPadding: defaultPadding * 2),
-              SizedBox(
+              const SizedBox(
                 height: defaultPadding / 1.5,
               ),
               RoundedInputField(
@@ -277,9 +277,9 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                 },
                 // icon: Icons.access_time,
               ),
-              FieldTitleWithStar(
+              const FieldTitleWithStar(
                   titleName: 'Description', topPadding: defaultPadding * 2),
-              SizedBox(
+              const SizedBox(
                 height: defaultPadding / 1.5,
               ),
               RoundedInputField(
@@ -295,12 +295,12 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                 onChanged: (value) {},
                 controller: _descriptionController,
               ),
-              SizedBox(
+              const SizedBox(
                 height: defaultPadding * 2,
               ),
               Row(
                 children: [
-                  Text('Status:'),
+                  const Text('Status:'),
                   Radio<RadioValues>(
                     value: RadioValues.active,
                     groupValue: _character,
@@ -310,7 +310,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                       });
                     },
                   ),
-                  Text('Active'),
+                  const Text('Active'),
                   Radio<RadioValues>(
                     value: RadioValues.inActive,
                     groupValue: _character,
@@ -320,10 +320,10 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                       });
                     },
                   ),
-                  Text('In Active'),
+                  const Text('In Active'),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: defaultPadding * 2,
               ),
               Row(
@@ -339,7 +339,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                       Navigator.of(context).pop();
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: defaultPadding,
                   ),
                   CustomTextButtonWidget(
@@ -368,7 +368,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
       child: SingleChildScrollView(
         child: Card(
           elevation: 0,
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             // side: BorderSide(color: Colors.transparent),
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(defaultPadding),
@@ -389,14 +389,14 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                         .titleLarge!
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: defaultPadding / 1.5,
                   ),
                   FormRowWidget(
                     firstChild: Column(
                       children: [
-                        FieldTitleWithStar(titleName: 'Company Name'),
-                        SizedBox(
+                        const FieldTitleWithStar(titleName: 'Company Name'),
+                        const SizedBox(
                           height: defaultPadding / 1.5,
                         ),
                         RoundedInputField(
@@ -417,8 +417,8 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                     ),
                     secondChild: Column(
                       children: [
-                        FieldTitleWithStar(titleName: 'Position'),
-                        SizedBox(
+                        const FieldTitleWithStar(titleName: 'Position'),
+                        const SizedBox(
                           height: defaultPadding / 1.5,
                         ),
                         RoundedInputField(
@@ -444,9 +444,10 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                   FormRowWidget(
                     firstChild: Column(
                       children: [
-                        FieldTitleWithStar(
-                            titleName: 'Job Type', topPadding: defaultPadding * 2),
-                        SizedBox(
+                        const FieldTitleWithStar(
+                            titleName: 'Job Type',
+                            topPadding: defaultPadding * 2),
+                        const SizedBox(
                           height: defaultPadding / 1.5,
                         ),
                         DropdownButtonFormField(
@@ -464,11 +465,12 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                                 horizontal: !Responsive.isDesktop(context)
                                     ? Responsive.screenWidth(context) * .03
                                     : Responsive.screenWidth(context) * .01,
-                                vertical: Responsive.screenHeight(context) * .001),
+                                vertical:
+                                    Responsive.screenHeight(context) * .001),
                             hintText: 'Choose',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 width: 0,
                                 style: BorderStyle.none,
                               ),
@@ -482,9 +484,10 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                     ),
                     secondChild: Column(
                       children: [
-                        FieldTitleWithStar(
-                            titleName: 'Job Type', topPadding: defaultPadding * 2),
-                        SizedBox(
+                        const FieldTitleWithStar(
+                            titleName: 'Job Type',
+                            topPadding: defaultPadding * 2),
+                        const SizedBox(
                           height: defaultPadding / 1.5,
                         ),
                         DropdownButtonFormField(
@@ -502,11 +505,12 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                                 horizontal: !Responsive.isDesktop(context)
                                     ? Responsive.screenWidth(context) * .03
                                     : Responsive.screenWidth(context) * .01,
-                                vertical: Responsive.screenHeight(context) * .001),
+                                vertical:
+                                    Responsive.screenHeight(context) * .001),
                             hintText: 'Choose',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 width: 0,
                                 style: BorderStyle.none,
                               ),
@@ -522,10 +526,10 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                   FormRowWidget(
                     firstChild: Column(
                       children: [
-                        FieldTitleWithStar(
+                        const FieldTitleWithStar(
                             titleName: 'Posted Date',
                             topPadding: defaultPadding * 2),
-                        SizedBox(
+                        const SizedBox(
                           height: defaultPadding / 1.5,
                         ),
                         RoundedInputField(
@@ -550,10 +554,10 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                     ),
                     secondChild: Column(
                       children: [
-                        FieldTitleWithStar(
+                        const FieldTitleWithStar(
                             titleName: 'Description',
                             topPadding: defaultPadding * 2),
-                        SizedBox(
+                        const SizedBox(
                           height: defaultPadding / 1.5,
                         ),
                         RoundedInputField(
@@ -573,12 +577,12 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: defaultPadding * 2,
                   ),
                   Row(
                     children: [
-                      Text('Status:'),
+                      const Text('Status:'),
                       Radio<RadioValues>(
                         value: RadioValues.active,
                         groupValue: _character,
@@ -588,7 +592,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                           });
                         },
                       ),
-                      Text('Active'),
+                      const Text('Active'),
                       Radio<RadioValues>(
                         value: RadioValues.inActive,
                         groupValue: _character,
@@ -598,10 +602,10 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                           });
                         },
                       ),
-                      Text('In Active'),
+                      const Text('In Active'),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: defaultPadding,
                   ),
                   Row(
@@ -617,7 +621,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                           Navigator.of(context).pop();
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: defaultPadding,
                       ),
                       CustomTextButtonWidget(
@@ -663,7 +667,7 @@ class FormRowWidget extends StatelessWidget {
         Expanded(
           child: firstChild,
         ),
-        SizedBox(
+        const SizedBox(
           width: 20,
         ),
         Expanded(
@@ -693,17 +697,14 @@ class FieldTitleWithStar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-          left: leftPadding, right: rightPadding, top: topPadding
-          // left: width*.03, right:width*.03,top: hieght*.015
-
-          ),
+          left: leftPadding, right: rightPadding, top: topPadding),
       child: Row(
         children: [
           Text(
             titleName,
-            style: TextStyle(fontWeight: FontWeight.w500),
+            style: const TextStyle(fontWeight: FontWeight.w500),
           ),
-          Baseline(
+          const Baseline(
             baseline: 4,
             baselineType: TextBaseline.alphabetic,
             child: Text(

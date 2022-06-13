@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:jobick_shafeeque/constants.dart';
 import 'package:jobick_shafeeque/controllers/drawer_controller.dart';
 import 'package:jobick_shafeeque/models/table_model.dart';
 import 'package:jobick_shafeeque/responsive.dart';
 import 'package:jobick_shafeeque/screens/main/components/side_menu.dart';
 import 'package:provider/provider.dart';
-import '../../constants.dart';
 import 'components/header_widget.dart';
 import 'components/table_data.dart';
 
 class DashboardScreen extends StatelessWidget {
-  BuildContext? contextCurrent;
+  const DashboardScreen({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
-    contextCurrent = context;
     return Scaffold(
       key: context.read<MenuController>().scaffoldKey,
-      drawer: SideMenu(),
+      drawer: const SideMenu(),
       body: SafeArea(
         child: Column(
           children: [
@@ -24,36 +24,24 @@ class DashboardScreen extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 // primary: false,
-                padding: EdgeInsets.all(defaultPadding),
+                padding: const EdgeInsets.all(defaultPadding),
                 child: Column(
                   children: [
-                    SizedBox(height: defaultPadding),
+                    const SizedBox(height: defaultPadding),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
                           flex: 5,
                           child: Column(
-                            children: [
+                            children: const [
                               Header(),
                               SizedBox(height: defaultPadding),
                               // TableData(),
                               CustomTable(),
-
-                              /*if (Responsive.isMobile(context))
-                                SizedBox(height: defaultPadding),
-                              if (Responsive.isMobile(context)) StarageDetails(),*/
                             ],
                           ),
                         ),
-                        /*if (!Responsive.isMobile(context))
-                          SizedBox(width: defaultPadding),
-                        // On Mobile means if the screen is less than 850 we dont want to show it
-                        if (!Responsive.isMobile(context))
-                          Expanded(
-                            flex: 2,
-                            child: StarageDetails(),
-                          ),*/
                       ],
                     )
                   ],
@@ -69,6 +57,9 @@ class DashboardScreen extends StatelessWidget {
 
 }
 
+
+
+
 class CustomTable extends StatelessWidget {
   const CustomTable({
     Key? key,
@@ -78,7 +69,7 @@ class CustomTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         // side: BorderSide(color: Colors.transparent),
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(defaultPadding),
@@ -91,11 +82,11 @@ class CustomTable extends StatelessWidget {
             width: !Responsive.isDesktop(context)?Responsive.screenWidth(context) * 3:Responsive.screenWidth(context)*.82,
             child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: demoRecentFiles.length,
-                physics: NeverScrollableScrollPhysics(),
+                itemCount: tableFiles.length,
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder:
                     (BuildContext context, int index) {
-                  var item = demoRecentFiles[index];
+                  var item = tableFiles[index];
                   return Column(
                     children: [
                       ColoredBox(
@@ -249,11 +240,11 @@ class CustomTable extends StatelessWidget {
                       ),
                       Visibility(
                         visible: index ==
-                                demoRecentFiles.length -
+                                tableFiles.length -
                                     1
                             ? false
                             : true,
-                        child: Divider(
+                        child: const Divider(
                           height: 0,
                           thickness: 1,
                         ),

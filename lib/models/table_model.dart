@@ -7,7 +7,7 @@ class TableModel {
 
 
 
-List <TableModel>demoRecentFiles = [
+List <TableModel>tableFiles = [
   TableModel(
     type: "Type",
     position: "Position",

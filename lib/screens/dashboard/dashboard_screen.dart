@@ -9,8 +9,11 @@ import 'components/header_widget.dart';
 import 'components/table_data.dart';
 
 class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
 
+   DashboardScreen({Key? key}) : super(key: key);
+
+  final ScrollController scrollController =
+   ScrollController(initialScrollOffset: 5);
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +37,16 @@ class DashboardScreen extends StatelessWidget {
                         Expanded(
                           flex: 5,
                           child: Column(
-                            children: const [
-                              Header(),
-                              SizedBox(height: defaultPadding),
+                            children:  [
+                              const Header(),
+                              const SizedBox(height: defaultPadding),
                               // TableData(),
-                              CustomTable(),
+                              Scrollbar(
+                                  controller: scrollController,
+                                  thickness: 3,
+                                  radius: const Radius.circular(20),
+                                  trackVisibility: true,
+                                  child: const CustomTable()),
                             ],
                           ),
                         ),

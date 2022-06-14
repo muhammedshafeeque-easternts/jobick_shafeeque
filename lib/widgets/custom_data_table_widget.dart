@@ -25,7 +25,7 @@ class CustomTable extends StatelessWidget {
           width: Responsive.isDesktop(context)
               ? Responsive.screenWidth(context) * .82
               : Responsive.isTablet(context)
-              ? Responsive.screenWidth(context) * 2
+              ? Responsive.screenWidth(context) * 1.7
               : Responsive.screenWidth(context) * 3,
           child: ListView.builder(
               shrinkWrap: true,

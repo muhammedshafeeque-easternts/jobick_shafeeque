@@ -40,7 +40,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
             Expanded(
               child: SingleChildScrollView(
-                // primary: false,
+                scrollDirection: Axis.vertical,
                 padding: const EdgeInsets.all(defaultPadding),
                 child: Column(
                   children: [
@@ -52,7 +52,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           flex: 5,
                           child: Column(
                             children:  [
-                              const Text('testing by soham render.com'),
                               const Header(),
                               const SizedBox(height: defaultPadding),
                               // TableData(),
@@ -62,7 +61,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   showTrackOnHover: true,
                                   radius: const Radius.circular(20),
                                   trackVisibility: true,
-                                  child: const CustomTable()),
+                                  child: const SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: CustomTable())),
                             ],
                           ),
                         ),
@@ -98,184 +99,182 @@ class CustomTable extends StatelessWidget {
             bottomLeft:
                 Radius.circular(defaultPadding)),
       ),
-      child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: SizedBox(
-            width: !Responsive.isDesktop(context)?Responsive.screenWidth(context) * 3:Responsive.screenWidth(context)*.82,
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: tableFiles.length,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder:
-                    (BuildContext context, int index) {
-                  var item = tableFiles[index];
-                  return Column(
-                    children: [
-                      ColoredBox(
-                        color: index.isEven
-                            ? kRowColorOdd
-                            : kRowColorEven,
-                        child: Padding(
-                          padding: const EdgeInsets
-                                  .symmetric(
-                              horizontal:
-                                  defaultPadding * 2),
-                          child: ConstrainedBox(
-                            // width:Responsive.screenWidth(context)*2,
+      child: SizedBox(
+        width: !Responsive.isDesktop(context)?Responsive.screenWidth(context) * 3:Responsive.screenWidth(context)*.82,
+        child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: tableFiles.length,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder:
+                (BuildContext context, int index) {
+              var item = tableFiles[index];
+              return Column(
+                children: [
+                  ColoredBox(
+                    color: index.isEven
+                        ? kRowColorOdd
+                        : kRowColorEven,
+                    child: Padding(
+                      padding: const EdgeInsets
+                              .symmetric(
+                          horizontal:
+                              defaultPadding * 2),
+                      child: ConstrainedBox(
+                        // width:Responsive.screenWidth(context)*2,
 
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    flex: 1,
-                                    child: Text(
-                                      item.no!,
-                                      style: TextStyle(
-                                          fontWeight: item
-                                                  .isTitle
-                                              ? FontWeight
-                                                  .bold
-                                              : FontWeight
-                                              .w500),
-                                    )),
-                                Expanded(
-                                    flex: 3,
-                                    child: Text(
-                                      item.position!,
-                                      style: TextStyle(
-                                          fontWeight: item
-                                                  .isTitle
-                                              ? FontWeight
-                                                  .w900
-                                              : FontWeight
-                                              .w500),
-                                    )),
-                                Expanded(
-                                    flex: 2,
-                                    child: Text(
-                                      item.type!,
-                                      style: TextStyle(
-                                          fontWeight: item
-                                                  .isTitle
-                                              ? FontWeight
-                                                  .bold
-                                              : FontWeight
-                                              .w500),
-                                    )),
-                                Expanded(
-                                    flex: 2,
-                                    child: Text(
-                                      item.postedDate!,
-                                      style: TextStyle(
-                                          fontWeight: item
-                                                  .isTitle
-                                              ? FontWeight
-                                                  .bold
-                                              : FontWeight
-                                              .w500),
-                                    )),
-                                Expanded(
-                                    flex: 2,
-                                    child: Text(
-                                      item.lastDateToApply!,
-                                      style: TextStyle(
-                                          fontWeight: item
-                                                  .isTitle
-                                              ? FontWeight
-                                                  .bold
-                                              : FontWeight
-                                              .w500),
-                                    )),
-                                Expanded(
-                                    flex: 2,
-                                    child: Text(
-                                      item.closeDate!,
-                                      style: TextStyle(
-                                          fontWeight: item
-                                                  .isTitle
-                                              ? FontWeight
-                                                  .bold
-                                              : FontWeight
-                                              .w500),
-                                    )),
-                                Expanded(
-                                    flex: 2,
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          // padding: EdgeInsets.symmetric(horizontal:20,vertical:defaultPadding/3 ),
-                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(36),color: item.isTitle?null:
-                                          item.status=='Active'?Colors.green.shade100:Colors.pink.shade100,),
-                                          child: Center(
-                                            child: Text(
-                                              item.status!,
-                                              style: TextStyle(
-                                                  fontWeight:
-                                                  item.isTitle ? FontWeight.bold : FontWeight.w500,color:item.isTitle?null:
-                                              item.status=='Active'?Colors.green:Colors.pink),
-                                            ),
-                                          ),
-                                          width: Responsive.isDesktop(context)?Responsive.screenWidth(context)*.05:Responsive.screenWidth(context)*.18,
-                                          height: Responsive.screenHeight(context)*.035,
-                                        ),
-                                        // SizedBox(width: 0,)
-                                      ],
-                                    )),
-                                Expanded(
-                                    flex: 2,
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          item.actions ??
-                                              '',
+                        child: Row(
+                          children: [
+                            Expanded(
+                                flex: 1,
+                                child: Text(
+                                  item.no!,
+                                  style: TextStyle(
+                                      fontWeight: item
+                                              .isTitle
+                                          ? FontWeight
+                                              .bold
+                                          : FontWeight
+                                          .w500),
+                                )),
+                            Expanded(
+                                flex: 3,
+                                child: Text(
+                                  item.position!,
+                                  style: TextStyle(
+                                      fontWeight: item
+                                              .isTitle
+                                          ? FontWeight
+                                              .w900
+                                          : FontWeight
+                                          .w500),
+                                )),
+                            Expanded(
+                                flex: 2,
+                                child: Text(
+                                  item.type!,
+                                  style: TextStyle(
+                                      fontWeight: item
+                                              .isTitle
+                                          ? FontWeight
+                                              .bold
+                                          : FontWeight
+                                          .w500),
+                                )),
+                            Expanded(
+                                flex: 2,
+                                child: Text(
+                                  item.postedDate!,
+                                  style: TextStyle(
+                                      fontWeight: item
+                                              .isTitle
+                                          ? FontWeight
+                                              .bold
+                                          : FontWeight
+                                          .w500),
+                                )),
+                            Expanded(
+                                flex: 2,
+                                child: Text(
+                                  item.lastDateToApply!,
+                                  style: TextStyle(
+                                      fontWeight: item
+                                              .isTitle
+                                          ? FontWeight
+                                              .bold
+                                          : FontWeight
+                                          .w500),
+                                )),
+                            Expanded(
+                                flex: 2,
+                                child: Text(
+                                  item.closeDate!,
+                                  style: TextStyle(
+                                      fontWeight: item
+                                              .isTitle
+                                          ? FontWeight
+                                              .bold
+                                          : FontWeight
+                                          .w500),
+                                )),
+                            Expanded(
+                                flex: 2,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      // padding: EdgeInsets.symmetric(horizontal:20,vertical:defaultPadding/3 ),
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(36),color: item.isTitle?null:
+                                      item.status=='Active'?Colors.green.shade100:Colors.pink.shade100,),
+                                      child: Center(
+                                        child: Text(
+                                          item.status!,
                                           style: TextStyle(
-                                              fontWeight: item
-                                                      .isTitle
-                                                  ? FontWeight
-                                                      .bold
-                                                  : null),
+                                              fontWeight:
+                                              item.isTitle ? FontWeight.bold : FontWeight.w500,color:item.isTitle?null:
+                                          item.status=='Active'?Colors.green:Colors.pink),
                                         ),
-                                        Visibility(
-                                          visible: item.actions==null,
-                                          child: Row(
-                                            children: [
-                                              CustomIconButtonWidget(horizontalPadding: 5,verticalPadding:5,icon: Icons.visibility,backgroundColor: Colors.green.shade100,iconColor:Colors.green,onTap: (){}),
-                                              SizedBox(width: Responsive.screenWidth(context)*.01,),
-                                              CustomIconButtonWidget(horizontalPadding: 5,verticalPadding:5,icon: Icons.edit,backgroundColor: Colors.blueGrey.shade100,iconColor:Colors.blueGrey,onTap: (){}),
-                                              SizedBox(width: Responsive.screenWidth(context)*.01,),
-                                              CustomIconButtonWidget(horizontalPadding: 5,verticalPadding:5,icon: Icons.delete,backgroundColor: Colors.pink.shade100,iconColor:Colors.pink,onTap: (){}),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    )),
-                              ],
-                            ),
-                            constraints: BoxConstraints(
-                                maxWidth:
-                                    double.infinity,
-                                minHeight: Responsive
-                                        .screenHeight(
-                                            context) *
-                                    .07),
-                          ),
+                                      ),
+                                      width: Responsive.isDesktop(context)?Responsive.screenWidth(context)*.05:Responsive.screenWidth(context)*.18,
+                                      height: Responsive.screenHeight(context)*.035,
+                                    ),
+                                    // SizedBox(width: 0,)
+                                  ],
+                                )),
+                            Expanded(
+                                flex: 2,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      item.actions ??
+                                          '',
+                                      style: TextStyle(
+                                          fontWeight: item
+                                                  .isTitle
+                                              ? FontWeight
+                                                  .bold
+                                              : null),
+                                    ),
+                                    Visibility(
+                                      visible: item.actions==null,
+                                      child: Row(
+                                        children: [
+                                          CustomIconButtonWidget(horizontalPadding: 5,verticalPadding:5,icon: Icons.visibility,backgroundColor: Colors.green.shade100,iconColor:Colors.green,onTap: (){}),
+                                          SizedBox(width: Responsive.screenWidth(context)*.01,),
+                                          CustomIconButtonWidget(horizontalPadding: 5,verticalPadding:5,icon: Icons.edit,backgroundColor: Colors.blueGrey.shade100,iconColor:Colors.blueGrey,onTap: (){}),
+                                          SizedBox(width: Responsive.screenWidth(context)*.01,),
+                                          CustomIconButtonWidget(horizontalPadding: 5,verticalPadding:5,icon: Icons.delete,backgroundColor: Colors.pink.shade100,iconColor:Colors.pink,onTap: (){}),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                )),
+                          ],
                         ),
+                        constraints: BoxConstraints(
+                            maxWidth:
+                                double.infinity,
+                            minHeight: Responsive
+                                    .screenHeight(
+                                        context) *
+                                .07),
                       ),
-                      Visibility(
-                        visible: index ==
-                                tableFiles.length -
-                                    1
-                            ? false
-                            : true,
-                        child: const Divider(
-                          height: 0,
-                          thickness: 1,
-                        ),
-                      ),
-                    ],
-                  );
-                }),
-            // height: height * 0.97/4,
-          )),
+                    ),
+                  ),
+                  Visibility(
+                    visible: index ==
+                            tableFiles.length -
+                                1
+                        ? false
+                        : true,
+                    child: const Divider(
+                      height: 0,
+                      thickness: 1,
+                    ),
+                  ),
+                ],
+              );
+            }),
+        // height: height * 0.97/4,
+      ),
     );
   }
 }

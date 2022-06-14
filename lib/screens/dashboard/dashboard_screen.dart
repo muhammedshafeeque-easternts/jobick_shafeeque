@@ -8,12 +8,26 @@ import 'package:provider/provider.dart';
 import 'components/header_widget.dart';
 import 'components/table_data.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
 
-   DashboardScreen({Key? key}) : super(key: key);
+  const DashboardScreen({Key? key}) : super(key: key);
+
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+
 
   final ScrollController scrollController =
    ScrollController(initialScrollOffset: 5);
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +52,14 @@ class DashboardScreen extends StatelessWidget {
                           flex: 5,
                           child: Column(
                             children:  [
-                              const Text('testing for render.com'),
+                              const Text('testing by soham render.com'),
                               const Header(),
                               const SizedBox(height: defaultPadding),
                               // TableData(),
                               Scrollbar(
                                   controller: scrollController,
                                   thickness: 3,
+                                  showTrackOnHover: true,
                                   radius: const Radius.circular(20),
                                   trackVisibility: true,
                                   child: const CustomTable()),
@@ -62,8 +77,6 @@ class DashboardScreen extends StatelessWidget {
       ),
     );
   }
-
-
 }
 
 

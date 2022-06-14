@@ -28,6 +28,10 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
   @override
   void dispose() {
     _dateController.dispose();
+    _companyNameController.dispose();
+    _positionController.dispose();
+    _noOfVacancyController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 

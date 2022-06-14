@@ -7,16 +7,16 @@ class TableModel {
 
 
 
-List <TableModel>tableFiles = [
+final List <TableModel>tableFiles = [
   TableModel(
-    type: "Type",
-    position: "Position",
-    no: "No",
-    postedDate: "Posted Date",
-    lastDateToApply: 'Last Date To Apply',
-    closeDate: 'Close Date',
-    status: 'Status',
-    actions:'Actions',
+      type: "Type",
+      position: "Position",
+      no: "No",
+      postedDate: "Posted Date",
+      lastDateToApply: 'Last Date To Apply',
+      closeDate: 'Close Date',
+      status: 'Status',
+      actions:'Actions',
       isTitle: true
 
   ),

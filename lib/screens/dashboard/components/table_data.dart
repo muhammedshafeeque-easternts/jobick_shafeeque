@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:jobick_shafeeque/constants.dart';
 import 'package:jobick_shafeeque/models/table_model.dart';
 import 'package:jobick_shafeeque/responsive.dart';
-
-import '../../../constants.dart';
+import 'package:jobick_shafeeque/widgets/custom_icon_button_widget.dart';
 
 class TableData extends StatelessWidget {
   const TableData({
@@ -63,7 +63,7 @@ DataRow recentFileDataRow(TableModel fileInfo, BuildContext context) {
       DataCell(SizedBox(
           width: Responsive.screenWidth(context) * .2,
           child: Padding(
-            padding: const EdgeInsets.only(left:defaultPadding),
+            padding: const EdgeInsets.only(left: defaultPadding),
             child: Text(
               fileInfo.no!,
               style: TextStyle(
@@ -159,21 +159,24 @@ DataRow recentFileDataRow(TableModel fileInfo, BuildContext context) {
                     CustomIconButtonWidget(
                         icon: Icons.visibility,
                         backgroundColor: Colors.green.shade100,
-                        iconColor: Colors.green,onTap: (){}),
+                        iconColor: Colors.green,
+                        onTap: () {}),
                     SizedBox(
                       width: Responsive.screenWidth(context) * .02,
                     ),
                     CustomIconButtonWidget(
                         icon: Icons.edit,
                         backgroundColor: Colors.blueGrey.shade100,
-                        iconColor: Colors.blueGrey,onTap: (){}),
+                        iconColor: Colors.blueGrey,
+                        onTap: () {}),
                     SizedBox(
                       width: Responsive.screenWidth(context) * .02,
                     ),
                     CustomIconButtonWidget(
                         icon: Icons.delete,
                         backgroundColor: Colors.pink.shade100,
-                        iconColor: Colors.pink,onTap: (){}),
+                        iconColor: Colors.pink,
+                        onTap: () {}),
                   ],
                 ),
               )
@@ -181,37 +184,4 @@ DataRow recentFileDataRow(TableModel fileInfo, BuildContext context) {
           ))),
     ],
   );
-}
-
-class CustomIconButtonWidget extends StatelessWidget {
-  final IconData icon;
-  final Color backgroundColor;
-  final Color iconColor;
-  final double boarderRadius;
-  final double horizontalPadding;
-  final double verticalPadding;
-
-  final VoidCallback onTap;
-  const CustomIconButtonWidget(
-      {Key? key,
-      required this.icon,
-      required this.backgroundColor,
-      required this.iconColor, this.boarderRadius=36,this.horizontalPadding=10,this.verticalPadding=10,required this.onTap
-      })
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        child: Icon(icon, color: iconColor),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(boarderRadius),
-          color: backgroundColor,
-        ),
-        padding: EdgeInsets.symmetric(horizontal: horizontalPadding,vertical: verticalPadding),
-      ),
-    );
-  }
 }

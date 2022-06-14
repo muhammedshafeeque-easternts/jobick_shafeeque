@@ -4,8 +4,8 @@ import 'package:jobick_shafeeque/res/utils.dart';
 import 'package:jobick_shafeeque/responsive.dart';
 import 'package:jobick_shafeeque/screens/add_new_job_screen/add_new_job_viewmodel.dart';
 import 'package:jobick_shafeeque/screens/dashboard/components/app_bar.dart';
-import 'package:jobick_shafeeque/screens/dashboard/components/table_data.dart';
-import 'package:jobick_shafeeque/widgets/rounded_input_field.dart';
+import 'package:jobick_shafeeque/widgets/custom_icon_button_widget.dart';
+import 'package:jobick_shafeeque/widgets/rounded_input_field_widget.dart';
 import 'package:intl/intl.dart';
 
 class AddNewJobScreen extends StatefulWidget {

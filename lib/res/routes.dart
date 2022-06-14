@@ -15,7 +15,7 @@ class AppRoutes {
         builder: (_) {
           switch (settings.name) {
             case homeScreen:
-              return  MainScreen();
+              return  const MainScreen();
               case addNewJobScreen:
               return  const AddNewJobScreen();
             default:

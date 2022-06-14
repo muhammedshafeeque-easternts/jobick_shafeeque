@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jobick_shafeeque/constants.dart';
 import 'package:jobick_shafeeque/responsive.dart';
 import 'package:jobick_shafeeque/screens/add_new_job_screen/add_new_job_screen.dart';
-import 'package:jobick_shafeeque/screens/dashboard/components/table_data.dart';
+import 'package:jobick_shafeeque/widgets/custom_icon_button_widget.dart';
 
 class Header extends StatelessWidget {
   const Header({
@@ -53,12 +53,12 @@ class Header extends StatelessWidget {
                     context: context,
                     builder: (_) {
                       return Responsive.isDesktop(context)
-                          ? AlertDialog(
+                          ? Dialog(
                               // contentPadding: EdgeInsets.all(10.0),
                               elevation: 5,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20.0)),
-                              content: SizedBox(
+                              child: SizedBox(
                                 width: Responsive.screenWidth(context) * .7,
                                 height: Responsive.screenHeight(context) * .7,
                                 child: const AddNewJobScreen(),

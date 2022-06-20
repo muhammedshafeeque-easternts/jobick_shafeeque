@@ -100,6 +100,65 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       child: _getDataTable(
                                         tableValues,
                                       ))),
+                              Visibility(
+                                visible: tableValues != null &&
+                                    tableValues!.length > 1,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Showing 1 of 9 of 9 entries",
+                                      style:
+                                          Theme.of(context).textTheme.caption,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        OutlinedButton(
+                                            onPressed: () {},
+                                            child: const Text("Previous"),
+                                            style: TextButton.styleFrom(
+                                                primary: kButtonColor,
+                                                side: const BorderSide(
+                                                    color: kButtonColor),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30)))),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Container(
+                                          width: 40,
+                                          height: 40,
+                                          child: const Center(child: Text('1')),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              color: Colors.grey[300],
+                                              border: Border.all(
+                                                  color: Colors.blueGrey)),
+                                          // padding: EdgeInsets.symmetric(horizontal: 12,vertical: 12),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        OutlinedButton(
+                                            onPressed: () {},
+                                            child: const Text("Next"),
+                                            style: TextButton.styleFrom(
+                                                primary: kButtonColor,
+                                                side: const BorderSide(
+                                                    color: kButtonColor),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30)))),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -111,6 +170,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton.small(
+            heroTag: null,
+            backgroundColor: Colors.red,
+            onPressed: () {},
+            child: const Icon(
+              Icons.next_plan_outlined,
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          FloatingActionButton.small(
+            heroTag: null,
+            backgroundColor: Colors.blue,
+            onPressed: () {},
+            child: const Icon(Icons.headset_mic),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          FloatingActionButton.small(
+            heroTag: null,
+            backgroundColor: Colors.green,
+            onPressed: () {},
+            child: const Icon(Icons.shopping_cart_outlined),
+          ),
+        ],
       ),
     );
   }
@@ -136,7 +226,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   )
               : AddNewJobScreen(isEditMode: isEditMode, tableData: tableRow);
         }).then((value) {
-      if (!value) return;
+      if (value == null || !value) return;
       db.getAllJobs().then((value) => setState(() {
             tableValues = value;
           }));
@@ -153,16 +243,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
         child: ConstrainedBox(
             constraints: BoxConstraints(
-                maxWidth: tableValues == null || tableValues.length == 1
-                    ? Responsive.screenWidth(context) * .9
-                    : Responsive.isDesktop(context)
+              minWidth: Responsive.isDesktop(context)
+                  ? Responsive.screenWidth(context) * .82
+                  : Responsive.isTablet(context)
+                  ? Responsive.screenWidth(context) * 1.7
+                  : Responsive.screenWidth(context) * 3,
+                maxWidth: Responsive.isDesktop(context)
                         ? Responsive.screenWidth(context) * .82
                         : Responsive.isTablet(context)
                             ? Responsive.screenWidth(context) * 1.7
                             : Responsive.screenWidth(context) * 3,
-                minHeight: tableValues == null || tableValues.length == 1
-                    ? Responsive.screenHeight(context) * .7
-                    : 0.0),
+                minHeight: /*tableValues == null || tableValues.length == 1
+                    ? Responsive.screenHeight(context) * .65
+                    :*/
+                    Responsive.screenHeight(context) * .65),
             child: tableValues == null
                 ? const CupertinoActivityIndicator()
                 : tableValues.length == 1

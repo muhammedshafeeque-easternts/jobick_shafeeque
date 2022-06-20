@@ -13,7 +13,8 @@ import 'package:intl/intl.dart';
 class AddNewJobScreen extends StatefulWidget {
   final bool isEditMode;
   final TableModel? tableData;
-  const AddNewJobScreen({Key? key,required this.isEditMode,this.tableData}) : super(key: key);
+  const AddNewJobScreen({Key? key, required this.isEditMode, this.tableData})
+      : super(key: key);
 
   @override
   _AddNewJobScreenState createState() => _AddNewJobScreenState();
@@ -23,20 +24,23 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
   late AddNewJobViewModel _model;
   final _format = DateFormat("yyyy-MM-dd");
   final _form = GlobalKey<FormState>();
-  final TextEditingController _dateController = TextEditingController();
-  final TextEditingController _companyNameController = TextEditingController();
+  final TextEditingController _postedDateController = TextEditingController();
+  final TextEditingController _lastDateToApplyController = TextEditingController();
+  final TextEditingController _closeDateController = TextEditingController();
+  // final TextEditingController _companyNameController = TextEditingController();
   final TextEditingController _positionController = TextEditingController();
-  final TextEditingController _noOfVacancyController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-
+  // final TextEditingController _noOfVacancyController = TextEditingController();
+  // final TextEditingController _descriptionController = TextEditingController();
+  RadioValues _character = RadioValues.active;
 
   @override
   void dispose() {
-    _dateController.dispose();
-    _companyNameController.dispose();
+    _postedDateController.dispose();
+    _lastDateToApplyController.dispose();
+    _closeDateController.dispose();
     _positionController.dispose();
-    _noOfVacancyController.dispose();
-    _descriptionController.dispose();
+    // _noOfVacancyController.dispose();
+    // _descriptionController.dispose();
     super.dispose();
   }
 
@@ -47,12 +51,14 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
     _model = AddNewJobViewModel();
     _model.loadJobCategories();
     _model.loadJobTypes();
-    if(widget.isEditMode){
-      _dateController.text=widget.tableData!.postedDate!;
-      _positionController.text=widget.tableData!.position!;
+    if (widget.isEditMode) {
+      _postedDateController.text = widget.tableData!.postedDate!;
+      _lastDateToApplyController.text = widget.tableData!.lastDateToApply!;
+      _closeDateController.text = widget.tableData!.closeDate!;
+      _positionController.text = widget.tableData!.position!;
       _model.changeJobType(widget.tableData!.type!);
+      _character = widget.tableData!.status=='Active'?RadioValues.active:RadioValues.inActive;
     }
-
   }
 
   @override
@@ -145,23 +151,6 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const FieldTitleWithStar(titleName: 'Company Name'),
-              const SizedBox(
-                height: defaultPadding / 1.5,
-              ),
-              RoundedInputField(
-                hintText: "Name",
-                onChanged: (value) {},
-                controller: _companyNameController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Field company name is mandatory.';
-                  } else if (!RegExp(r'^[a-zA-Z0-9\_@.]+$').hasMatch(value)) {
-                    return 'Please provide a valid value.';
-                  }
-                  return null;
-                },
-              ),
               const SizedBox(
                 height: defaultPadding * 2,
               ),
@@ -181,40 +170,6 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                   }
                   return null;
                 },
-              ),
-              const FieldTitleWithStar(
-                  titleName: 'Job Category', topPadding: defaultPadding * 2),
-              const SizedBox(
-                height: defaultPadding / 1.5,
-              ),
-              DropdownButtonFormField(
-                validator: (value) {
-                  if (value == null) {
-                    return 'Choose job category.';
-                  }
-                  return null;
-                },
-                isExpanded: true,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: kPrimaryLightColor,
-                  contentPadding: EdgeInsets.symmetric(
-                      horizontal: !Responsive.isDesktop(context)
-                          ? Responsive.screenWidth(context) * .03
-                          : Responsive.screenWidth(context) * .01,
-                      vertical: Responsive.screenHeight(context) * .001),
-                  hintText: 'Choose',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: const BorderSide(
-                      width: 0,
-                      style: BorderStyle.none,
-                    ),
-                  ),
-                ),
-                value: _model.selectedJobCategory,
-                items: _model.dropdownMenuItemsJobCategory,
-                onChanged: _model.changeJobCategory,
               ),
               const FieldTitleWithStar(
                   titleName: 'Job Type', topPadding: defaultPadding * 2),
@@ -250,26 +205,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                 items: _model.dropdownMenuItemsJobType,
                 onChanged: _model.changeJobType,
               ),
-              const FieldTitleWithStar(
-                  titleName: 'No. of Vacancy', topPadding: defaultPadding * 2),
-              const SizedBox(
-                height: defaultPadding / 1.5,
-              ),
-              RoundedInputField(
-                hintText: "Vacant",
-                onChanged: (value) {},
-                controller: _noOfVacancyController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Field No. of Vacancy is mandatory.';
-                  } else if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                    return 'Please provide a valid value..';
-                  } else if (value == '0') {
-                    return 'Value should be greater than zero';
-                  }
-                  return null;
-                },
-              ),
+
               const FieldTitleWithStar(
                   titleName: 'Posted Date', topPadding: defaultPadding * 2),
               const SizedBox(
@@ -283,33 +219,60 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                   return null;
                 },
                 hintText: "Select",
-                controller: _dateController,
+                controller: _postedDateController,
                 readOnly: true,
                 onTap: () async {
                   DateTime? date = await Utils.getDateFromDatePicker(context);
 
-                  _dateController.text = _format.format(date!);
+                  _postedDateController.text = _format.format(date!);
                 },
                 // icon: Icons.access_time,
               ),
               const FieldTitleWithStar(
-                  titleName: 'Description', topPadding: defaultPadding * 2),
+                  titleName: 'Last Date To Apply', topPadding: defaultPadding * 2),
               const SizedBox(
                 height: defaultPadding / 1.5,
               ),
               RoundedInputField(
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Field Description is mandatory.';
-                  } else if (!RegExp(r'^[a-zA-Z0-9\_@.]+$').hasMatch(value)) {
-                    return 'Please provide a valid value..';
+                    return 'Choose last date to apply.';
                   }
                   return null;
                 },
-                hintText: "Desc",
-                onChanged: (value) {},
-                controller: _descriptionController,
+                hintText: "Select",
+                controller: _lastDateToApplyController,
+                readOnly: true,
+                onTap: () async {
+                  DateTime? date = await Utils.getDateFromDatePicker(context);
+
+                  _lastDateToApplyController.text = _format.format(date!);
+                },
+                // icon: Icons.access_time,
               ),
+              const FieldTitleWithStar(
+                  titleName: 'Close Date', topPadding: defaultPadding * 2),
+              const SizedBox(
+                height: defaultPadding / 1.5,
+              ),
+              RoundedInputField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Choose close date.';
+                  }
+                  return null;
+                },
+                hintText: "Select",
+                controller: _closeDateController,
+                readOnly: true,
+                onTap: () async {
+                  DateTime? date = await Utils.getDateFromDatePicker(context);
+
+                  _closeDateController.text = _format.format(date!);
+                },
+                // icon: Icons.access_time,
+              ),
+
               const SizedBox(
                 height: defaultPadding * 2,
               ),
@@ -367,30 +330,36 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                       if (!_form.currentState!.validate()) {
                         return;
                       }
-                      if(widget.isEditMode){
-                        db.updateJob(TableModel(
-                          id: widget.tableData!.id,
-                            position: _positionController.text,
-                            type: _model.selectedJobType,
-                            postedDate: _dateController.text,
-                            lastDateToApply: '24-08-2022',
-                            closeDate: '25-08-2022',
-                            status: _character.index==0?'Active':'InActive',
-                            actions: null,
-                            isTitle: false)).then((value) => Navigator.of(context).pop(true));
-                      }else{
-                        db.addJob(TableModel(
-                            position: _positionController.text,
-                            type: _model.selectedJobType,
-                            postedDate: _dateController.text,
-                            lastDateToApply: '24-08-2022',
-                            closeDate: '25-08-2022',
-                            status: _character.index==0?'Active':'InActive',
-                            actions: null,
-                            isTitle: false)).then((value) => Navigator.of(context).pop(true));
-
+                      if (widget.isEditMode) {
+                        db
+                            .updateJob(TableModel(
+                                id: widget.tableData!.id,
+                                position: _positionController.text,
+                                type: _model.selectedJobType,
+                                postedDate: _postedDateController.text,
+                                lastDateToApply: _lastDateToApplyController.text,
+                                closeDate: _closeDateController.text,
+                                status: _character.index == 0
+                                    ? 'Active'
+                                    : 'InActive',
+                                actions: null,
+                                isTitle: false))
+                            .then((value) => Navigator.of(context).pop(true));
+                      } else {
+                        db
+                            .addJob(TableModel(
+                                position: _positionController.text,
+                                type: _model.selectedJobType,
+                                postedDate: _postedDateController.text,
+                                lastDateToApply: _lastDateToApplyController.text,
+                                closeDate: _closeDateController.text,
+                                status: _character.index == 0
+                                    ? 'Active'
+                                    : 'InActive',
+                                actions: null,
+                                isTitle: false))
+                            .then((value) => Navigator.of(context).pop(true));
                       }
-
                     },
                   )
                 ],
@@ -434,18 +403,18 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                   FormRowWidget(
                     firstChild: Column(
                       children: [
-                        const FieldTitleWithStar(titleName: 'Company Name'),
+                        const FieldTitleWithStar(titleName: 'Position',topPadding: defaultPadding * 2),
                         const SizedBox(
                           height: defaultPadding / 1.5,
                         ),
                         RoundedInputField(
                           hintText: "Name",
                           onChanged: (value) {},
-                          controller: _companyNameController,
+                          controller: _positionController,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Field company name is mandatory.';
-                            } else if (!RegExp(r'^[a-zA-Z0-9\_@.]+$')
+                            } else if (!RegExp(r'^[a-zA-Z0-9\_@. ]+$')
                                 .hasMatch(value)) {
                               return 'Please provide a valid value.';
                             }
@@ -456,36 +425,8 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                     ),
                     secondChild: Column(
                       children: [
-                        const FieldTitleWithStar(titleName: 'Position'),
-                        const SizedBox(
-                          height: defaultPadding / 1.5,
-                        ),
-                        RoundedInputField(
-                          hintText: "Name",
-                          onChanged: (value) {},
-                          controller: _positionController,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Field position is mandatory.';
-                            } else if (!RegExp(r'^[a-zA-Z0-9\_@.]+$')
-                                .hasMatch(value)) {
-                              return 'Please provide a valid value..';
-                            }
-                            return null;
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  /*SizedBox(
-                    height: defaultPadding/2,
-                  ),*/
-                  FormRowWidget(
-                    firstChild: Column(
-                      children: [
                         const FieldTitleWithStar(
-                            titleName: 'Job Type',
-                            topPadding: defaultPadding * 2),
+                            titleName: 'Job Type', topPadding: defaultPadding * 2),
                         const SizedBox(
                           height: defaultPadding / 1.5,
                         ),
@@ -504,48 +445,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                                 horizontal: !Responsive.isDesktop(context)
                                     ? Responsive.screenWidth(context) * .03
                                     : Responsive.screenWidth(context) * .01,
-                                vertical:
-                                    Responsive.screenHeight(context) * .001),
-                            hintText: 'Choose',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: const BorderSide(
-                                width: 0,
-                                style: BorderStyle.none,
-                              ),
-                            ),
-                          ),
-                          value: _model.selectedJobType,
-                          items: _model.dropdownMenuItemsJobType,
-                          onChanged: _model.changeJobType,
-                        ),
-                      ],
-                    ),
-                    secondChild: Column(
-                      children: [
-                        const FieldTitleWithStar(
-                            titleName: 'Job Type',
-                            topPadding: defaultPadding * 2),
-                        const SizedBox(
-                          height: defaultPadding / 1.5,
-                        ),
-                        DropdownButtonFormField(
-                          validator: (value) {
-                            if (value == null) {
-                              return 'Choose job Type.';
-                            }
-                            return null;
-                          },
-                          isExpanded: true,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: kPrimaryLightColor,
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: !Responsive.isDesktop(context)
-                                    ? Responsive.screenWidth(context) * .03
-                                    : Responsive.screenWidth(context) * .01,
-                                vertical:
-                                    Responsive.screenHeight(context) * .001),
+                                vertical: Responsive.screenHeight(context) * .001),
                             hintText: 'Choose',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
@@ -562,6 +462,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                       ],
                     ),
                   ),
+
                   FormRowWidget(
                     firstChild: Column(
                       children: [
@@ -579,13 +480,13 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                             return null;
                           },
                           hintText: "Select",
-                          controller: _dateController,
+                          controller: _postedDateController,
                           readOnly: true,
                           onTap: () async {
                             DateTime? date =
                                 await Utils.getDateFromDatePicker(context);
 
-                            _dateController.text = _format.format(date!);
+                            _postedDateController.text = _format.format(date!);
                           },
                           // icon: Icons.access_time,
                         ),
@@ -594,28 +495,87 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                     secondChild: Column(
                       children: [
                         const FieldTitleWithStar(
-                            titleName: 'Description',
-                            topPadding: defaultPadding * 2),
+                            titleName: 'Last Date To Apply', topPadding: defaultPadding * 2),
                         const SizedBox(
                           height: defaultPadding / 1.5,
                         ),
                         RoundedInputField(
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Field Description is mandatory.';
-                            } else if (!RegExp(r'^[a-zA-Z0-9\_@.]+$')
-                                .hasMatch(value)) {
-                              return 'Please provide a valid value..';
+                              return 'Choose last date to apply.';
                             }
                             return null;
                           },
-                          hintText: "Desc",
-                          onChanged: (value) {},
-                          controller: _descriptionController,
+                          hintText: "Select",
+                          controller: _lastDateToApplyController,
+                          readOnly: true,
+                          onTap: () async {
+                            DateTime? date = await Utils.getDateFromDatePicker(context);
+
+                            _lastDateToApplyController.text = _format.format(date!);
+                          },
+                          // icon: Icons.access_time,
                         ),
                       ],
                     ),
                   ),
+                  FormRowWidget(
+                    firstChild: Column(
+                      children: [
+                        const FieldTitleWithStar(
+                            titleName: 'Close Date', topPadding: defaultPadding * 2),
+                        const SizedBox(
+                          height: defaultPadding / 1.5,
+                        ),
+                        RoundedInputField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Choose close date.';
+                            }
+                            return null;
+                          },
+                          hintText: "Select",
+                          controller: _closeDateController,
+                          readOnly: true,
+                          onTap: () async {
+                            DateTime? date = await Utils.getDateFromDatePicker(context);
+
+                            _closeDateController.text = _format.format(date!);
+                          },
+                          // icon: Icons.access_time,
+                        ),
+                      ],
+                    ),
+                    secondChild: Column(
+                      children: [
+                        const FieldTitleWithStar(
+                            titleName: 'Last Date To Apply', topPadding: defaultPadding * 2),
+                        const SizedBox(
+                          height: defaultPadding / 1.5,
+                        ),
+                        RoundedInputField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Choose last date to apply.';
+                            }
+                            return null;
+                          },
+                          hintText: "Select",
+                          controller: _lastDateToApplyController,
+                          readOnly: true,
+                          onTap: () async {
+                            DateTime? date = await Utils.getDateFromDatePicker(context);
+
+                            _lastDateToApplyController.text = _format.format(date!);
+                          },
+                          // icon: Icons.access_time,
+                        ),
+
+                      ],
+                    ),
+                  ),
+
+
                   const SizedBox(
                     height: defaultPadding * 2,
                   ),
@@ -673,28 +633,37 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                           if (!_form.currentState!.validate()) {
                             return;
                           }
-                          if(widget.isEditMode){
-                            db.updateJob(TableModel(
-                                id: widget.tableData!.id,
-                                position: _positionController.text,
-                                type: _model.selectedJobType,
-                                postedDate: _dateController.text,
-                                lastDateToApply: '24-08-2022',
-                                closeDate: '25-08-2022',
-                                status: _character.index==0?'Active':'InActive',
-                                actions: null,
-                                isTitle: false)).then((value) => Navigator.of(context).pop(true));
-                          }else{
-                            db.addJob(TableModel(
-                                position: _positionController.text,
-                                type: _model.selectedJobType,
-                                postedDate: _dateController.text,
-                                lastDateToApply: '24-08-2022',
-                                closeDate: '25-08-2022',
-                                status: _character.index==0?'Active':'InActive',
-                                actions: null,
-                                isTitle: false)).then((value) => Navigator.of(context).pop(true));
-
+                          if (widget.isEditMode) {
+                            db
+                                .updateJob(TableModel(
+                                    id: widget.tableData!.id,
+                                    position: _positionController.text,
+                                    type: _model.selectedJobType,
+                                    postedDate: _postedDateController.text,
+                                    lastDateToApply: _lastDateToApplyController.text,
+                                    closeDate: _closeDateController.text,
+                                    status: _character.index == 0
+                                        ? 'Active'
+                                        : 'InActive',
+                                    actions: null,
+                                    isTitle: false))
+                                .then(
+                                    (value) => Navigator.of(context).pop(true));
+                          } else {
+                            db
+                                .addJob(TableModel(
+                                    position: _positionController.text,
+                                    type: _model.selectedJobType,
+                                    postedDate: _postedDateController.text,
+                                    lastDateToApply: _lastDateToApplyController.text,
+                                    closeDate: _closeDateController.text,
+                                    status: _character.index == 0
+                                        ? 'Active'
+                                        : 'InActive',
+                                    actions: null,
+                                    isTitle: false))
+                                .then(
+                                    (value) => Navigator.of(context).pop(true));
                           }
                         },
                       )
@@ -711,7 +680,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
 
   Db db = Db();
 
-  RadioValues _character = RadioValues.active;
+
 }
 
 class FormRowWidget extends StatelessWidget {

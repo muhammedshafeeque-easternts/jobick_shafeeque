@@ -38,8 +38,8 @@ dependencies:
 #  get_it: ^7.2.0
   datetime_picker_formfield: ^2.0.0
   flutter_svg: ^1.1.0
-#  sqflite: ^2.0.2+1
-#  path_provider: ^2.0.11
+  sqflite: ^2.0.2+1
+  path_provider: ^2.0.11
 
 dev_dependencies:
   flutter_test:

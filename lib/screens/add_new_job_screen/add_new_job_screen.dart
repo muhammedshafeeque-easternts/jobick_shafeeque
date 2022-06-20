@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jobick_shafeeque/constants.dart';
+import 'package:jobick_shafeeque/models/table_model.dart';
+import 'package:jobick_shafeeque/res/db.dart';
 import 'package:jobick_shafeeque/res/utils.dart';
 import 'package:jobick_shafeeque/responsive.dart';
 import 'package:jobick_shafeeque/screens/add_new_job_screen/add_new_job_viewmodel.dart';
@@ -9,7 +11,9 @@ import 'package:jobick_shafeeque/widgets/rounded_input_field_widget.dart';
 import 'package:intl/intl.dart';
 
 class AddNewJobScreen extends StatefulWidget {
-  const AddNewJobScreen({Key? key}) : super(key: key);
+  final bool isEditMode;
+  final TableModel? tableData;
+  const AddNewJobScreen({Key? key,required this.isEditMode,this.tableData}) : super(key: key);
 
   @override
   _AddNewJobScreenState createState() => _AddNewJobScreenState();
@@ -24,6 +28,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
   final TextEditingController _positionController = TextEditingController();
   final TextEditingController _noOfVacancyController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+
 
   @override
   void dispose() {
@@ -42,6 +47,12 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
     _model = AddNewJobViewModel();
     _model.loadJobCategories();
     _model.loadJobTypes();
+    if(widget.isEditMode){
+      _dateController.text=widget.tableData!.postedDate!;
+      _positionController.text=widget.tableData!.position!;
+      _model.changeJobType(widget.tableData!.type!);
+    }
+
   }
 
   @override
@@ -310,7 +321,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                     groupValue: _character,
                     onChanged: (RadioValues? value) {
                       setState(() {
-                        _character = value;
+                        _character = value!;
                       });
                     },
                   ),
@@ -320,7 +331,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                     groupValue: _character,
                     onChanged: (RadioValues? value) {
                       setState(() {
-                        _character = value;
+                        _character = value!;
                       });
                     },
                   ),
@@ -356,6 +367,30 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                       if (!_form.currentState!.validate()) {
                         return;
                       }
+                      if(widget.isEditMode){
+                        db.updateJob(TableModel(
+                          id: widget.tableData!.id,
+                            position: _positionController.text,
+                            type: _model.selectedJobType,
+                            postedDate: _dateController.text,
+                            lastDateToApply: '24-08-2022',
+                            closeDate: '25-08-2022',
+                            status: _character.index==0?'Active':'InActive',
+                            actions: null,
+                            isTitle: false)).then((value) => Navigator.of(context).pop(true));
+                      }else{
+                        db.addJob(TableModel(
+                            position: _positionController.text,
+                            type: _model.selectedJobType,
+                            postedDate: _dateController.text,
+                            lastDateToApply: '24-08-2022',
+                            closeDate: '25-08-2022',
+                            status: _character.index==0?'Active':'InActive',
+                            actions: null,
+                            isTitle: false)).then((value) => Navigator.of(context).pop(true));
+
+                      }
+
                     },
                   )
                 ],
@@ -592,7 +627,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                         groupValue: _character,
                         onChanged: (RadioValues? value) {
                           setState(() {
-                            _character = value;
+                            _character = value!;
                           });
                         },
                       ),
@@ -602,7 +637,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                         groupValue: _character,
                         onChanged: (RadioValues? value) {
                           setState(() {
-                            _character = value;
+                            _character = value!;
                           });
                         },
                       ),
@@ -638,6 +673,29 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                           if (!_form.currentState!.validate()) {
                             return;
                           }
+                          if(widget.isEditMode){
+                            db.updateJob(TableModel(
+                                id: widget.tableData!.id,
+                                position: _positionController.text,
+                                type: _model.selectedJobType,
+                                postedDate: _dateController.text,
+                                lastDateToApply: '24-08-2022',
+                                closeDate: '25-08-2022',
+                                status: _character.index==0?'Active':'InActive',
+                                actions: null,
+                                isTitle: false)).then((value) => Navigator.of(context).pop(true));
+                          }else{
+                            db.addJob(TableModel(
+                                position: _positionController.text,
+                                type: _model.selectedJobType,
+                                postedDate: _dateController.text,
+                                lastDateToApply: '24-08-2022',
+                                closeDate: '25-08-2022',
+                                status: _character.index==0?'Active':'InActive',
+                                actions: null,
+                                isTitle: false)).then((value) => Navigator.of(context).pop(true));
+
+                          }
                         },
                       )
                     ],
@@ -651,7 +709,9 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
     );
   }
 
-  RadioValues? _character;
+  Db db = Db();
+
+  RadioValues _character = RadioValues.active;
 }
 
 class FormRowWidget extends StatelessWidget {

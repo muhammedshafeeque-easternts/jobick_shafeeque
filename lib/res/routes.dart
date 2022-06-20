@@ -17,7 +17,7 @@ class AppRoutes {
             case homeScreen:
               return  const MainScreen();
               case addNewJobScreen:
-              return  const AddNewJobScreen();
+              return  const AddNewJobScreen(isEditMode: false,);
             default:
               return const Text("Route Erro");
           }

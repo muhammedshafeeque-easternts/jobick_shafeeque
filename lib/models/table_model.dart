@@ -1,17 +1,45 @@
 class TableModel {
-  final String? type, position, no, postedDate,lastDateToApply,closeDate,status,actions;
+  final int? id;
+  final String? type, position, postedDate,lastDateToApply,closeDate,status,actions;
   final bool isTitle;
 
-  TableModel({this.type, this.position, this.no, this.postedDate,this.actions,this.closeDate,this.lastDateToApply,this.status,this.isTitle=false});
+  TableModel({this.type, this.position, this.id, this.postedDate,this.actions,this.closeDate,
+    this.lastDateToApply,this.status,this.isTitle=false});
+
+  factory TableModel.fromJson(Map<String, dynamic> json) => TableModel(
+    // offerCodeBanner: List<OfferCodeBanner>.from(json["offer_code_banner"].map((x) => OfferCodeBanner.fromJson(x))),
+    id: json["id"],
+    position: json["position"],
+    type: json["type"],
+    postedDate: json["posted_date"],
+    lastDateToApply: json["last_date_to_apply"],
+    closeDate: json["close_date"],
+    status: json["status"],
+    actions: json['actions'],
+    isTitle: json["is_title"]==0?false:true,
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "position": position,
+    "type": type,
+    "posted_date": postedDate,
+    "last_date_to_apply": lastDateToApply,
+    "close_date": closeDate,
+    "status": status,
+    "actions": actions,
+    "is_title": isTitle?1:0,
+  };
+
 }
 
 
 
-final List <TableModel>tableFiles = [
+/*final List <TableModel>tableFiles = [
   TableModel(
       type: "Type",
       position: "Position",
-      no: "No",
+      id: "No",
       postedDate: "Posted Date",
       lastDateToApply: 'Last Date To Apply',
       closeDate: 'Close Date',
@@ -23,7 +51,7 @@ final List <TableModel>tableFiles = [
   TableModel(
     type: "Full-Time",
     position: "SQL Developer",
-    no: "1",
+    id: "1",
     postedDate: "12-01-2021",
     lastDateToApply: '24-01-2021',
     closeDate: '25-01-2021',
@@ -33,7 +61,7 @@ final List <TableModel>tableFiles = [
 
     type: "Full-Time",
     position: "Network engineer",
-    no: "2",
+    id: "2",
     postedDate: "12-01-2021",
     lastDateToApply: '24-01-2021',
     closeDate: '25-01-2021',
@@ -42,7 +70,7 @@ final List <TableModel>tableFiles = [
   TableModel(
     type: "Full-Time",
     position: "Junior Developer",
-    no: "3",
+    id: "3",
     postedDate: "12-01-2021",
     lastDateToApply: '24-01-2021',
     closeDate: '25-01-2021',
@@ -51,7 +79,7 @@ final List <TableModel>tableFiles = [
   TableModel(
     type: "Full-Time",
     position: "Java Developer",
-    no: "4",
+    id: "4",
     postedDate: "12-01-2021",
     lastDateToApply: '24-01-2021',
     closeDate: '25-01-2021',
@@ -61,7 +89,7 @@ final List <TableModel>tableFiles = [
 
     type: "Full-Time",
     position: "Ios Developer",
-    no: "5",
+    id: "5",
     postedDate: "12-01-2021",
     lastDateToApply: '24-01-2021',
     closeDate: '25-01-2021',
@@ -70,7 +98,7 @@ final List <TableModel>tableFiles = [
   TableModel(
     type: "Full-Time",
     position: "Entry Level Developer",
-    no: "6",
+    id: "6",
     postedDate: "12-01-2021",
     lastDateToApply: '24-01-2021',
     closeDate: '25-01-2021',
@@ -79,7 +107,7 @@ final List <TableModel>tableFiles = [
   TableModel(
     type: "Full-Time",
     position: "Flutter Developer",
-    no: "7",
+    id: "7",
     postedDate: "12-01-2021",
     lastDateToApply: '24-01-2021',
     closeDate: '25-01-2021',
@@ -88,10 +116,10 @@ final List <TableModel>tableFiles = [
   TableModel(
     type: "Full-Time",
     position: "React Developer",
-    no: "8",
+    id: "8",
     postedDate: "12-01-2021",
     lastDateToApply: '24-01-2021',
     closeDate: '25-01-2021',
     status: 'Active',
   ),
-];
+];*/

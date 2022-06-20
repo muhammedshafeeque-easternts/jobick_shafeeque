@@ -4,7 +4,7 @@ import 'package:jobick_shafeeque/models/table_model.dart';
 import 'package:jobick_shafeeque/responsive.dart';
 import 'package:jobick_shafeeque/widgets/custom_icon_button_widget.dart';
 
-class TableData extends StatelessWidget {
+/*class TableData extends StatelessWidget {
   const TableData({
     Key? key,
   }) : super(key: key);
@@ -65,7 +65,7 @@ DataRow recentFileDataRow(TableModel fileInfo, BuildContext context) {
           child: Padding(
             padding: const EdgeInsets.only(left: defaultPadding),
             child: Text(
-              fileInfo.no!,
+              fileInfo.id!,
               style: TextStyle(
                   fontWeight:
                       fileInfo.isTitle ? FontWeight.bold : FontWeight.normal),
@@ -184,4 +184,4 @@ DataRow recentFileDataRow(TableModel fileInfo, BuildContext context) {
           ))),
     ],
   );
-}
+}*/

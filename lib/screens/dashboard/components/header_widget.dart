@@ -5,8 +5,9 @@ import 'package:jobick_shafeeque/screens/add_new_job_screen/add_new_job_screen.d
 import 'package:jobick_shafeeque/widgets/custom_icon_button_widget.dart';
 
 class Header extends StatelessWidget {
-  const Header({
-    Key? key,
+   VoidCallback? onTapAddJob;
+   Header({
+    Key? key,required this.onTapAddJob
   }) : super(key: key);
 
   @override
@@ -48,27 +49,7 @@ class Header extends StatelessWidget {
                         defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
                   ),
                   backgroundColor: Colors.red),
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (_) {
-                      return Responsive.isDesktop(context)
-                          ? Dialog(
-                              // contentPadding: EdgeInsets.all(10.0),
-                              elevation: 5,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              child: SizedBox(
-                                width: Responsive.screenWidth(context) * .7,
-                                height: Responsive.screenHeight(context) * .7,
-                                child: const AddNewJobScreen(),
-                              )
-                              // AddNewJobScreen()
-                              )
-                          : const AddNewJobScreen();
-                    });
-                // Navigator.pushNamed(context, AppRoutes.addNewJobScreen);
-              },
+              onPressed: onTapAddJob,
               icon: const Icon(Icons.add),
               label: const Text("Add New Job"),
             ),

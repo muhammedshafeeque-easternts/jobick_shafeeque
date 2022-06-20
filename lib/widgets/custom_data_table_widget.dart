@@ -1,12 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jobick_shafeeque/constants.dart';
 import 'package:jobick_shafeeque/models/table_model.dart';
 import 'package:jobick_shafeeque/responsive.dart';
 import 'package:jobick_shafeeque/widgets/custom_icon_button_widget.dart';
 
+/*
 class CustomTable extends StatelessWidget {
+  final List<TableModel>? tableValues;
   const CustomTable({
-    Key? key,
+    Key? key,required this.tableValues
   }) : super(key: key);
 
 
@@ -27,12 +30,12 @@ class CustomTable extends StatelessWidget {
               : Responsive.isTablet(context)
               ? Responsive.screenWidth(context) * 1.7
               : Responsive.screenWidth(context) * 3,
-          child: ListView.builder(
+          child:tableValues==null?const CupertinoActivityIndicator(): tableValues!.isEmpty?const Center(child: Text('No Jobs Posted'),):ListView.builder(
               shrinkWrap: true,
-              itemCount: tableFiles.length,
+              itemCount: tableValues!.length,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
-                var item = tableFiles[index];
+                var item = tableValues![index];
                 return Column(
                   children: [
                     ColoredBox(
@@ -48,7 +51,7 @@ class CustomTable extends StatelessWidget {
                               Expanded(
                                   flex: 1,
                                   child: Text(
-                                    item.no!,
+                                    item.id==1?'No':'${item.id!-1}',
                                     style: TextStyle(
                                         fontWeight: item.isTitle
                                             ? FontWeight.bold
@@ -199,7 +202,7 @@ class CustomTable extends StatelessWidget {
                       ),
                     ),
                     Visibility(
-                      visible: index == tableFiles.length - 1 ? false : true,
+                      visible: index == tableValues!.length - 1 ? false : true,
                       child: const Divider(
                         height: 0,
                         thickness: 1,
@@ -213,4 +216,4 @@ class CustomTable extends StatelessWidget {
     // height: height * 0.97/4,
 
   }
-}
+}*/

@@ -4,6 +4,7 @@ import 'package:jobick_shafeeque/constants.dart';
 import 'package:jobick_shafeeque/controllers/drawer_controller.dart';
 import 'package:jobick_shafeeque/models/table_model.dart';
 import 'package:jobick_shafeeque/res/db.dart';
+import 'package:jobick_shafeeque/res/size_config.dart';
 import 'package:jobick_shafeeque/responsive.dart';
 import 'package:jobick_shafeeque/screens/add_new_job_screen/add_new_job_screen.dart';
 import 'package:jobick_shafeeque/screens/main/components/side_menu.dart';
@@ -233,264 +234,358 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
-  Widget _getDataTable(List<TableModel>? tableValues) => Card(
-        elevation: 0,
-        shape: const RoundedRectangleBorder(
-          // side: BorderSide(color: Colors.transparent),
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(defaultPadding),
-              bottomLeft: Radius.circular(defaultPadding)),
-        ),
-        child: ConstrainedBox(
-            constraints: BoxConstraints(
+  Widget _getDataTable(List<TableModel>? tableValues) {
+    final popupItemTextTheme = Theme.of(context)
+        .textTheme
+        .titleMedium!
+        .copyWith(fontWeight: FontWeight.bold);
+    return Card(
+      elevation: 0,
+      shape: const RoundedRectangleBorder(
+        // side: BorderSide(color: Colors.transparent),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(defaultPadding),
+            bottomLeft: Radius.circular(defaultPadding)),
+      ),
+      child: ConstrainedBox(
+          constraints: BoxConstraints(
               minWidth: Responsive.isDesktop(context)
                   ? Responsive.screenWidth(context) * .82
                   : Responsive.isTablet(context)
-                  ? Responsive.screenWidth(context) * 1.7
-                  : Responsive.screenWidth(context) * 3,
-                maxWidth: Responsive.isDesktop(context)
-                        ? Responsive.screenWidth(context) * .82
-                        : Responsive.isTablet(context)
-                            ? Responsive.screenWidth(context) * 1.7
-                            : Responsive.screenWidth(context) * 3,
-                minHeight: /*tableValues == null || tableValues.length == 1
+                      ? Responsive.screenWidth(context) * 1.7
+                      : Responsive.screenWidth(context) * 3,
+              maxWidth: Responsive.isDesktop(context)
+                  ? Responsive.screenWidth(context) * .82
+                  : Responsive.isTablet(context)
+                      ? Responsive.screenWidth(context) * 1.7
+                      : Responsive.screenWidth(context) * 3,
+              minHeight: /*tableValues == null || tableValues.length == 1
                     ? Responsive.screenHeight(context) * .65
                     :*/
-                    Responsive.screenHeight(context) * .65),
-            child: tableValues == null
-                ? const CupertinoActivityIndicator()
-                : tableValues.length == 1
-                    ? const Center(
-                        child: Text('No Jobs Found'),
-                      )
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: tableValues.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          var item = tableValues[index];
-                          return Column(
-                            children: [
-                              ColoredBox(
-                                color:
-                                    index.isEven ? kRowColorOdd : kRowColorEven,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: defaultPadding * 2),
-                                  child: ConstrainedBox(
-                                    // width:Responsive.screenWidth(context)*2,
+                  Responsive.screenHeight(context) * .65),
+          child: tableValues == null
+              ? const CupertinoActivityIndicator()
+              : tableValues.length == 1
+                  ? const Center(
+                      child: Text('No Jobs Found'),
+                    )
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: tableValues.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        var item = tableValues[index];
+                        return Column(
+                          children: [
+                            ColoredBox(
+                              color:
+                                  index.isEven ? kRowColorOdd : kRowColorEven,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: defaultPadding * 2),
+                                child: ConstrainedBox(
+                                  // width:Responsive.screenWidth(context)*2,
 
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                            flex: 1,
-                                            child: Text(
-                                              item.id == 1
-                                                  ? 'No'
-                                                  : '${item.id! - 1}',
-                                              style: TextStyle(
-                                                  fontWeight: item.isTitle
-                                                      ? FontWeight.bold
-                                                      : FontWeight.w500),
-                                            )),
-                                        Expanded(
-                                            flex: 3,
-                                            child: Text(
-                                              item.position!,
-                                              style: TextStyle(
-                                                  fontWeight: item.isTitle
-                                                      ? FontWeight.w900
-                                                      : FontWeight.w500),
-                                            )),
-                                        Expanded(
-                                            flex: 2,
-                                            child: Text(
-                                              item.type!,
-                                              style: TextStyle(
-                                                  fontWeight: item.isTitle
-                                                      ? FontWeight.bold
-                                                      : FontWeight.w500),
-                                            )),
-                                        Expanded(
-                                            flex: 2,
-                                            child: Text(
-                                              item.postedDate!,
-                                              style: TextStyle(
-                                                  fontWeight: item.isTitle
-                                                      ? FontWeight.bold
-                                                      : FontWeight.w500),
-                                            )),
-                                        Expanded(
-                                            flex: 2,
-                                            child: Text(
-                                              item.lastDateToApply!,
-                                              style: TextStyle(
-                                                  fontWeight: item.isTitle
-                                                      ? FontWeight.bold
-                                                      : FontWeight.w500),
-                                            )),
-                                        Expanded(
-                                            flex: 2,
-                                            child: Text(
-                                              item.closeDate!,
-                                              style: TextStyle(
-                                                  fontWeight: item.isTitle
-                                                      ? FontWeight.bold
-                                                      : FontWeight.w500),
-                                            )),
-                                        Expanded(
-                                            flex: 2,
-                                            child: Row(
-                                              children: [
-                                                Container(
-                                                  // padding: EdgeInsets.symmetric(horizontal:20,vertical:defaultPadding/3 ),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            36),
-                                                    color: item.isTitle
-                                                        ? null
-                                                        : item.status ==
-                                                                'Active'
-                                                            ? Colors
-                                                                .green.shade100
-                                                            : Colors
-                                                                .pink.shade100,
-                                                  ),
-                                                  child: Center(
-                                                    child: Text(
-                                                      item.status!,
-                                                      style: TextStyle(
-                                                          fontWeight: item
-                                                                  .isTitle
-                                                              ? FontWeight.bold
-                                                              : FontWeight.w500,
-                                                          color: item.isTitle
-                                                              ? null
-                                                              : item.status ==
-                                                                      'Active'
-                                                                  ? Colors.green
-                                                                  : Colors
-                                                                      .pink),
-                                                    ),
-                                                  ),
-                                                  width: Responsive.isDesktop(
-                                                          context)
-                                                      ? Responsive.screenWidth(
-                                                              context) *
-                                                          .05
-                                                      : Responsive.screenWidth(
-                                                              context) *
-                                                          .18,
-                                                  height:
-                                                      Responsive.screenHeight(
-                                                              context) *
-                                                          .035,
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                          flex: 1,
+                                          child: Text(
+                                            item.id == 1
+                                                ? 'No'
+                                                : '${item.id! - 1}',
+                                            style: TextStyle(
+                                                fontWeight: item.isTitle
+                                                    ? FontWeight.bold
+                                                    : FontWeight.w500),
+                                          )),
+                                      Expanded(
+                                          flex: 3,
+                                          child: Text(
+                                            item.position!,
+                                            style: TextStyle(
+                                                fontWeight: item.isTitle
+                                                    ? FontWeight.w900
+                                                    : FontWeight.w500),
+                                          )),
+                                      Expanded(
+                                          flex: 2,
+                                          child: Text(
+                                            item.type!,
+                                            style: TextStyle(
+                                                fontWeight: item.isTitle
+                                                    ? FontWeight.bold
+                                                    : FontWeight.w500),
+                                          )),
+                                      Expanded(
+                                          flex: 2,
+                                          child: Text(
+                                            item.postedDate!,
+                                            style: TextStyle(
+                                                fontWeight: item.isTitle
+                                                    ? FontWeight.bold
+                                                    : FontWeight.w500),
+                                          )),
+                                      Expanded(
+                                          flex: 2,
+                                          child: Text(
+                                            item.lastDateToApply!,
+                                            style: TextStyle(
+                                                fontWeight: item.isTitle
+                                                    ? FontWeight.bold
+                                                    : FontWeight.w500),
+                                          )),
+                                      Expanded(
+                                          flex: 2,
+                                          child: Text(
+                                            item.closeDate!,
+                                            style: TextStyle(
+                                                fontWeight: item.isTitle
+                                                    ? FontWeight.bold
+                                                    : FontWeight.w500),
+                                          )),
+                                      Expanded(
+                                          flex: 2,
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                // padding: EdgeInsets.symmetric(horizontal:20,vertical:defaultPadding/3 ),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(36),
+                                                  color: item.isTitle
+                                                      ? null
+                                                      : item.status == 'Active'
+                                                          ? Colors
+                                                              .green.shade100
+                                                          : Colors
+                                                              .pink.shade100,
                                                 ),
-                                                // SizedBox(width: 0,)
-                                              ],
-                                            )),
-                                        Expanded(
-                                            flex: 2,
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  item.actions ?? '',
-                                                  style: TextStyle(
-                                                      fontWeight: item.isTitle
-                                                          ? FontWeight.bold
-                                                          : null),
+                                                child: Center(
+                                                  child: Text(
+                                                    item.status!,
+                                                    style: TextStyle(
+                                                        fontWeight: item.isTitle
+                                                            ? FontWeight.bold
+                                                            : FontWeight.w500,
+                                                        color: item.isTitle
+                                                            ? null
+                                                            : item.status ==
+                                                                    'Active'
+                                                                ? Colors.green
+                                                                : Colors.pink),
+                                                  ),
                                                 ),
-                                                Visibility(
-                                                  visible: item.actions == null,
-                                                  child: Row(
-                                                    children: [
-                                                      CustomIconButtonWidget(
-                                                          horizontalPadding: 5,
-                                                          verticalPadding: 5,
-                                                          icon:
-                                                              Icons.visibility,
-                                                          backgroundColor:
-                                                              Colors.green
-                                                                  .shade100,
-                                                          iconColor:
-                                                              Colors.green,
-                                                          onTap: () {}),
-                                                      SizedBox(
-                                                        width: Responsive
-                                                                .screenWidth(
-                                                                    context) *
-                                                            .01,
-                                                      ),
-                                                      CustomIconButtonWidget(
-                                                          horizontalPadding: 5,
-                                                          verticalPadding: 5,
-                                                          icon: Icons.edit,
-                                                          backgroundColor:
-                                                              Colors.blueGrey
-                                                                  .shade100,
-                                                          iconColor:
-                                                              Colors.blueGrey,
-                                                          onTap: () {
-                                                            _navigateToAddNewJobScreen(
-                                                                context,
-                                                                isEditMode:
-                                                                    true,
-                                                                tableRow: item);
-                                                          }),
-                                                      SizedBox(
-                                                        width: Responsive
-                                                                .screenWidth(
-                                                                    context) *
-                                                            .01,
-                                                      ),
-                                                      CustomIconButtonWidget(
-                                                          horizontalPadding: 5,
-                                                          verticalPadding: 5,
-                                                          icon: Icons.delete,
-                                                          backgroundColor:
-                                                              Colors.pink
-                                                                  .shade100,
-                                                          iconColor:
-                                                              Colors.pink,
-                                                          onTap: () {
-                                                            db
-                                                                .deleteJob(
-                                                                    item.id!)
-                                                                .then((value) {
-                                                              setState(() {
-                                                                tableValues
-                                                                    .remove(
-                                                                        item);
+                                                width: Responsive.isDesktop(
+                                                        context)
+                                                    ? Responsive.screenWidth(
+                                                            context) *
+                                                        .05
+                                                    : Responsive.screenWidth(
+                                                            context) *
+                                                        .18,
+                                                height: Responsive.screenHeight(
+                                                        context) *
+                                                    .035,
+                                              ),
+                                              // SizedBox(width: 0,)
+                                            ],
+                                          )),
+                                      Expanded(
+                                          flex: 2,
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                item.actions ?? '',
+                                                style: TextStyle(
+                                                    fontWeight: item.isTitle
+                                                        ? FontWeight.bold
+                                                        : null),
+                                              ),
+                                              Visibility(
+                                                visible: item.actions == null,
+                                                child: Row(
+                                                  children: [
+                                                    CustomIconButtonWidget(
+                                                        horizontalPadding: 5,
+                                                        verticalPadding: 5,
+                                                        icon: Icons.visibility,
+                                                        backgroundColor: Colors
+                                                            .green.shade100,
+                                                        iconColor: Colors.green,
+                                                        onTap: () {
+                                                          showDialog(
+                                                              context: context,
+                                                              builder: (_) {
+                                                                /*return Responsive.isDesktop(context)
+                                                                      ?*/
+                                                                return Dialog(
+                                                                    // contentPadding: EdgeInsets.all(10.0),
+                                                                    elevation:
+                                                                        5,
+                                                                    shape: RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                20.0)),
+                                                                    child:
+                                                                        Container(
+                                                                      padding:
+                                                                          const EdgeInsets
+                                                                              .only(
+                                                                        top: 20,
+                                                                      ),
+                                                                      // width: Responsive.screenWidth(context) * .5,
+                                                                      height:
+                                                                          Responsive.screenHeight(context) *
+                                                                              .5,
+                                                                      child:
+                                                                          Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceAround,
+                                                                        children: [
+                                                                          Column(
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.start,
+                                                                            children: [
+                                                                              height10(),
+                                                                              Text(
+                                                                                'Position',
+                                                                                style: popupItemTextTheme,
+                                                                              ),
+                                                                              height10(),
+                                                                              Text(
+                                                                                'Type',
+                                                                                style: popupItemTextTheme,
+                                                                              ),
+                                                                              height10(),
+                                                                              Text(
+                                                                                'Posted Date',
+                                                                                style: popupItemTextTheme,
+                                                                              ),
+                                                                              height10(),
+                                                                              Text(
+                                                                                'Last Date To Apply',
+                                                                                style: popupItemTextTheme,
+                                                                              ),
+                                                                              height10(),
+                                                                              Text(
+                                                                                'Close Date',
+                                                                                style: popupItemTextTheme,
+                                                                              ),
+                                                                              height10(),
+                                                                            ],
+                                                                          ),
+                                                                          Column(
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.start,
+                                                                            children: [
+                                                                              height10(),
+                                                                              Text(
+                                                                                item.position!,
+                                                                                style: popupItemTextTheme,
+                                                                              ),
+                                                                              height10(),
+                                                                              Text(
+                                                                                item.type!,
+                                                                                style: popupItemTextTheme,
+                                                                              ),
+                                                                              height10(),
+                                                                              Text(
+                                                                                item.postedDate!,
+                                                                                style: popupItemTextTheme,
+                                                                              ),
+                                                                              height10(),
+                                                                              Text(
+                                                                                item.lastDateToApply!,
+                                                                                style: popupItemTextTheme,
+                                                                              ),
+                                                                              height10(),
+                                                                              Text(
+                                                                                item.closeDate!,
+                                                                                style: popupItemTextTheme,
+                                                                              ),
+                                                                              // height10(),
+                                                                            ],
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    )
+                                                                    // AddNewJobScreen()
+                                                                    );
+                                                                // : AddNewJobScreen(isEditMode: isEditMode, tableData: tableRow);
                                                               });
+                                                        }),
+                                                    SizedBox(
+                                                      width: Responsive
+                                                              .screenWidth(
+                                                                  context) *
+                                                          .01,
+                                                    ),
+                                                    CustomIconButtonWidget(
+                                                        horizontalPadding: 5,
+                                                        verticalPadding: 5,
+                                                        icon: Icons.edit,
+                                                        backgroundColor: Colors
+                                                            .blueGrey.shade100,
+                                                        iconColor:
+                                                            Colors.blueGrey,
+                                                        onTap: () {
+                                                          _navigateToAddNewJobScreen(
+                                                              context,
+                                                              isEditMode: true,
+                                                              tableRow: item);
+                                                        }),
+                                                    SizedBox(
+                                                      width: Responsive
+                                                              .screenWidth(
+                                                                  context) *
+                                                          .01,
+                                                    ),
+                                                    CustomIconButtonWidget(
+                                                        horizontalPadding: 5,
+                                                        verticalPadding: 5,
+                                                        icon: Icons.delete,
+                                                        backgroundColor: Colors
+                                                            .pink.shade100,
+                                                        iconColor: Colors.pink,
+                                                        onTap: () {
+                                                          db
+                                                              .deleteJob(
+                                                                  item.id!)
+                                                              .then((value) {
+                                                            setState(() {
+                                                              tableValues
+                                                                  .remove(item);
                                                             });
-                                                          }),
-                                                    ],
-                                                  ),
-                                                )
-                                              ],
-                                            )),
-                                      ],
-                                    ),
-                                    constraints: BoxConstraints(
-                                        maxWidth: double.infinity,
-                                        minHeight:
-                                            Responsive.screenHeight(context) *
-                                                .07),
+                                                          });
+                                                        }),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          )),
+                                    ],
                                   ),
+                                  constraints: BoxConstraints(
+                                      maxWidth: double.infinity,
+                                      minHeight:
+                                          Responsive.screenHeight(context) *
+                                              .07),
                                 ),
                               ),
-                              Visibility(
-                                visible: index == tableValues.length - 1
-                                    ? false
-                                    : true,
-                                child: const Divider(
-                                  height: 0,
-                                  thickness: 1,
-                                ),
+                            ),
+                            Visibility(
+                              visible: index == tableValues.length - 1
+                                  ? false
+                                  : true,
+                              child: const Divider(
+                                height: 0,
+                                thickness: 1,
                               ),
-                            ],
-                          );
-                        })),
-      );
+                            ),
+                          ],
+                        );
+                      })),
+    );
+  }
 }

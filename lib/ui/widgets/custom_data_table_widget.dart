@@ -1,9 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:jobick_shafeeque/constants.dart';
-import 'package:jobick_shafeeque/models/table_model.dart';
-import 'package:jobick_shafeeque/responsive.dart';
-import 'package:jobick_shafeeque/widgets/custom_icon_button_widget.dart';
+
 
 /*
 class CustomTable extends StatelessWidget {

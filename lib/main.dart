@@ -1,14 +1,15 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:jobick_shafeeque/controllers/drawer_controller.dart';
-import 'package:jobick_shafeeque/res/routes.dart';
+import 'package:jobick_shafeeque/core/res/routes.dart';
+import 'package:jobick_shafeeque/core/viewmodels/dashboard_viewmodel.dart';
+import 'package:jobick_shafeeque/core/viewmodels/drawer_controller.dart';
 import 'package:provider/provider.dart';
-// import 'package:jobick_shafeeque/core/locator.dart'  as locator;
+import 'package:jobick_shafeeque/locator.dart'  as locator;
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  // await locator.setupLocator();
+  await locator.setupLocator();
   runApp(const MyApp());
 }
 
@@ -22,6 +23,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => MenuController(),
+        ),
+        ChangeNotifierProvider<DashBoardViewModel>(
+          create: (_) => locator.sl<DashBoardViewModel>(),
         ),
       ],
       child: MaterialApp(

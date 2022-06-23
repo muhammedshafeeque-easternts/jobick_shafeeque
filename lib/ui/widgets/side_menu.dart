@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:jobick_shafeeque/responsive.dart';
+import 'package:jobick_shafeeque/core/res/responsive.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({

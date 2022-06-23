@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jobick_shafeeque/constants.dart';
-import 'package:jobick_shafeeque/responsive.dart';
+import 'package:jobick_shafeeque/core/res/constants.dart';
+import 'package:jobick_shafeeque/core/res/responsive.dart';
 
 class RoundedInputField extends StatelessWidget {
   final String hintText;

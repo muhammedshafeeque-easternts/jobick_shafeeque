@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:jobick_shafeeque/constants.dart';
-import 'package:jobick_shafeeque/controllers/drawer_controller.dart';
-import 'package:jobick_shafeeque/responsive.dart';
-import 'package:jobick_shafeeque/widgets/custom_icon_button_widget.dart';
+import 'package:jobick_shafeeque/core/res/constants.dart';
+import 'package:jobick_shafeeque/core/res/responsive.dart';
+import 'package:jobick_shafeeque/core/viewmodels/drawer_controller.dart';
+import 'package:jobick_shafeeque/ui/widgets/custom_icon_button_widget.dart';
+
 import 'package:provider/provider.dart';
 
 

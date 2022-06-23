@@ -1,8 +1,9 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:jobick_shafeeque/screens/add_new_job_screen/add_new_job_screen.dart';
-import 'package:jobick_shafeeque/screens/main/main_screen.dart';
+import 'package:jobick_shafeeque/ui/views/add_new_job_view.dart';
+import 'package:jobick_shafeeque/ui/views/main_view.dart';
+
 
 class AppRoutes {
   static const homeScreen = "/";
@@ -15,9 +16,9 @@ class AppRoutes {
         builder: (_) {
           switch (settings.name) {
             case homeScreen:
-              return  const MainScreen();
+              return  const MainView();
               case addNewJobScreen:
-              return  const AddNewJobScreen(isEditMode: false,);
+              return  const AddNewJobView(isEditMode: false,);
             default:
               return const Text("Route Erro");
           }

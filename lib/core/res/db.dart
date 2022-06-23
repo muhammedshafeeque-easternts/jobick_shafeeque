@@ -1,8 +1,8 @@
 import 'dart:async';
 import "dart:io" as io;
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:jobick_shafeeque/constants.dart';
-import 'package:jobick_shafeeque/models/table_model.dart';
+import 'package:jobick_shafeeque/core/res/constants.dart';
+import 'package:jobick_shafeeque/core/models/table_model.dart';
 import "package:path/path.dart";
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -32,7 +32,7 @@ class Db {
     io.Directory documentDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentDirectory.path, "jobs.db");
     var taskDb = await openDatabase(path,
-        version: 1, onCreate: _onCreate, onUpgrade: _onUpgrade);
+        version: 2, onCreate: _onCreate, onUpgrade: _onUpgrade);
     return taskDb;
   }
 

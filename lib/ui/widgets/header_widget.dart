@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jobick_shafeeque/constants.dart';
-import 'package:jobick_shafeeque/responsive.dart';
-import 'package:jobick_shafeeque/screens/add_new_job_screen/add_new_job_screen.dart';
-import 'package:jobick_shafeeque/widgets/custom_icon_button_widget.dart';
+import 'package:jobick_shafeeque/core/res/constants.dart';
+import 'package:jobick_shafeeque/core/res/responsive.dart';
+import 'package:jobick_shafeeque/ui/widgets/custom_icon_button_widget.dart';
+
 
 class Header extends StatelessWidget {
    VoidCallback? onTapAddJob;

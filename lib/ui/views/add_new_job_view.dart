@@ -1,141 +1,102 @@
 import 'package:flutter/material.dart';
-import 'package:jobick_shafeeque/constants.dart';
-import 'package:jobick_shafeeque/models/table_model.dart';
-import 'package:jobick_shafeeque/res/db.dart';
-import 'package:jobick_shafeeque/res/utils.dart';
-import 'package:jobick_shafeeque/responsive.dart';
-import 'package:jobick_shafeeque/screens/add_new_job_screen/add_new_job_viewmodel.dart';
-import 'package:jobick_shafeeque/screens/dashboard/components/app_bar.dart';
-import 'package:jobick_shafeeque/widgets/custom_icon_button_widget.dart';
-import 'package:jobick_shafeeque/widgets/rounded_input_field_widget.dart';
+import 'package:jobick_shafeeque/core/res/constants.dart';
+import 'package:jobick_shafeeque/core/models/table_model.dart';
 import 'package:intl/intl.dart';
+import 'package:jobick_shafeeque/core/res/db.dart';
+import 'package:jobick_shafeeque/core/res/responsive.dart';
+import 'package:jobick_shafeeque/core/res/utils.dart';
+import 'package:jobick_shafeeque/core/viewmodels/add_new_job_model.dart';
 
-class AddNewJobScreen extends StatefulWidget {
+import '../widgets/app_bar.dart';
+import '../widgets/custom_icon_button_widget.dart';
+import '../widgets/rounded_input_field_widget.dart';
+import 'base_view.dart';
+
+class AddNewJobView extends StatelessWidget {
   final bool isEditMode;
   final TableModel? tableData;
-  const AddNewJobScreen({Key? key, required this.isEditMode, this.tableData})
+  const AddNewJobView({Key? key, required this.isEditMode, this.tableData})
       : super(key: key);
 
-  @override
-  _AddNewJobScreenState createState() => _AddNewJobScreenState();
-}
-
-class _AddNewJobScreenState extends State<AddNewJobScreen> {
-  late AddNewJobViewModel _model;
-  final _format = DateFormat("yyyy-MM-dd");
-  final _form = GlobalKey<FormState>();
-  final TextEditingController _postedDateController = TextEditingController();
-  final TextEditingController _lastDateToApplyController = TextEditingController();
-  final TextEditingController _closeDateController = TextEditingController();
-  // final TextEditingController _companyNameController = TextEditingController();
-  final TextEditingController _positionController = TextEditingController();
-  // final TextEditingController _noOfVacancyController = TextEditingController();
-  // final TextEditingController _descriptionController = TextEditingController();
-  RadioValues _character = RadioValues.active;
-
-  @override
-  void dispose() {
-    _postedDateController.dispose();
-    _lastDateToApplyController.dispose();
-    _closeDateController.dispose();
-    _positionController.dispose();
-    // _noOfVacancyController.dispose();
-    // _descriptionController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _model = AddNewJobViewModel();
-    _model.loadJobCategories();
-    _model.loadJobTypes();
-    if (widget.isEditMode) {
-      _postedDateController.text = widget.tableData!.postedDate!;
-      _lastDateToApplyController.text = widget.tableData!.lastDateToApply!;
-      _closeDateController.text = widget.tableData!.closeDate!;
-      _positionController.text = widget.tableData!.position!;
-      _model.changeJobType(widget.tableData!.type!);
-      _character = widget.tableData!.status=='Active'?RadioValues.active:RadioValues.inActive;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          if (Responsive.isDesktop(context)) buildCardFormDesktop(context),
-          if (!Responsive.isDesktop(context))
-            Container(
-                child: const AppBarWidget(),
-                color: Colors.white,
-                padding: EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: Responsive.isDesktop(context) ? 20 : 6)),
-          if (!Responsive.isDesktop(context))
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(defaultPadding),
-                child: Column(
-                  children: [
-                    const SizedBox(height: defaultPadding),
-                    Row(
-                      children: [
-                        Text(
-                          "New Job",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(fontWeight: FontWeight.w500),
-                        ),
-                        const Spacer(),
-                        CustomIconButtonWidget(
-                          icon: Icons.mail,
-                          backgroundColor: Colors.teal,
-                          iconColor: Colors.white,
-                          boarderRadius: 19,
-                          onTap: () {},
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        CustomIconButtonWidget(
-                          icon: Icons.phone,
-                          backgroundColor: Colors.teal,
-                          iconColor: Colors.white,
-                          boarderRadius: 19,
-                          onTap: () {},
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        CustomIconButtonWidget(
-                          icon: Icons.height,
-                          backgroundColor: Colors.red,
-                          iconColor: Colors.white,
-                          boarderRadius: 19,
-                          horizontalPadding: 6,
-                          onTap: () {},
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: defaultPadding,
-                    ),
-                    buildCardFormMobile(context)
-                  ],
+    return BaseView<AddNewJobViewModel>(
+      onModelReady: (model) => model.initialize(isEditMode,tableData),
+      builder: (context, model, child) => Scaffold(
+        body: Column(
+          children: [
+            if (Responsive.isDesktop(context)) buildCardFormDesktop(context,model),
+            if (!Responsive.isDesktop(context))
+              Container(
+                  child: const AppBarWidget(),
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: Responsive.isDesktop(context) ? 20 : 6)),
+            if (!Responsive.isDesktop(context))
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(defaultPadding),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: defaultPadding),
+                      Row(
+                        children: [
+                          Text(
+                            "New Job",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(fontWeight: FontWeight.w500),
+                          ),
+                          const Spacer(),
+                          CustomIconButtonWidget(
+                            icon: Icons.mail,
+                            backgroundColor: Colors.teal,
+                            iconColor: Colors.white,
+                            boarderRadius: 19,
+                            onTap: () {},
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          CustomIconButtonWidget(
+                            icon: Icons.phone,
+                            backgroundColor: Colors.teal,
+                            iconColor: Colors.white,
+                            boarderRadius: 19,
+                            onTap: () {},
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          CustomIconButtonWidget(
+                            icon: Icons.height,
+                            backgroundColor: Colors.red,
+                            iconColor: Colors.white,
+                            boarderRadius: 19,
+                            horizontalPadding: 6,
+                            onTap: () {},
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: defaultPadding,
+                      ),
+                      buildCardFormMobile(context,model)
+                    ],
+                  ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
+        // floatingActionButton: ,
       ),
-      // floatingActionButton: ,
     );
   }
 
-  Card buildCardFormMobile(BuildContext context) {
+  Card buildCardFormMobile(BuildContext context, AddNewJobViewModel model,) {
     return Card(
       elevation: 0,
       shape: const RoundedRectangleBorder(
@@ -147,12 +108,12 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
       child: Padding(
         padding: const EdgeInsets.all(defaultPadding),
         child: Form(
-          key: _form,
+          key: model.form,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
-                height: defaultPadding * 2,
+                height: defaultPadding * 1,
               ),
               const FieldTitleWithStar(titleName: 'Position'),
               const SizedBox(
@@ -161,7 +122,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
               RoundedInputField(
                 hintText: "Name",
                 onChanged: (value) {},
-                controller: _positionController,
+                controller: model.positionController,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Field position is mandatory.';
@@ -201,9 +162,9 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                     ),
                   ),
                 ),
-                value: _model.selectedJobType,
-                items: _model.dropdownMenuItemsJobType,
-                onChanged: _model.changeJobType,
+                value: model.selectedJobType,
+                items: model.dropdownMenuItemsJobType,
+                onChanged: model.changeJobType,
               ),
 
               const FieldTitleWithStar(
@@ -219,12 +180,12 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                   return null;
                 },
                 hintText: "Select",
-                controller: _postedDateController,
+                controller: model.postedDateController,
                 readOnly: true,
                 onTap: () async {
                   DateTime? date = await Utils.getDateFromDatePicker(context);
 
-                  _postedDateController.text = _format.format(date!);
+                  model.postedDateController.text = model.format.format(date!);
                 },
                 // icon: Icons.access_time,
               ),
@@ -241,12 +202,12 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                   return null;
                 },
                 hintText: "Select",
-                controller: _lastDateToApplyController,
+                controller: model.lastDateToApplyController,
                 readOnly: true,
                 onTap: () async {
                   DateTime? date = await Utils.getDateFromDatePicker(context);
 
-                  _lastDateToApplyController.text = _format.format(date!);
+                  model.lastDateToApplyController.text = model.format.format(date!);
                 },
                 // icon: Icons.access_time,
               ),
@@ -263,12 +224,12 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                   return null;
                 },
                 hintText: "Select",
-                controller: _closeDateController,
+                controller: model.closeDateController,
                 readOnly: true,
                 onTap: () async {
                   DateTime? date = await Utils.getDateFromDatePicker(context);
 
-                  _closeDateController.text = _format.format(date!);
+                  model.closeDateController.text = model.format.format(date!);
                 },
                 // icon: Icons.access_time,
               ),
@@ -281,21 +242,17 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                   const Text('Status:'),
                   Radio<RadioValues>(
                     value: RadioValues.active,
-                    groupValue: _character,
+                    groupValue: model.character,
                     onChanged: (RadioValues? value) {
-                      setState(() {
-                        _character = value!;
-                      });
+                      model.updateRadioValue(value);
                     },
                   ),
                   const Text('Active'),
                   Radio<RadioValues>(
                     value: RadioValues.inActive,
-                    groupValue: _character,
+                    groupValue: model.character,
                     onChanged: (RadioValues? value) {
-                      setState(() {
-                        _character = value!;
-                      });
+                      model.updateRadioValue(value);
                     },
                   ),
                   const Text('In Active'),
@@ -327,39 +284,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                     boarderRadius: 12,
                     // horizontalPadding: 14,
                     onTap: () {
-                      if (!_form.currentState!.validate()) {
-                        return;
-                      }
-                      if (widget.isEditMode) {
-                        db
-                            .updateJob(TableModel(
-                                id: widget.tableData!.id,
-                                position: _positionController.text,
-                                type: _model.selectedJobType,
-                                postedDate: _postedDateController.text,
-                                lastDateToApply: _lastDateToApplyController.text,
-                                closeDate: _closeDateController.text,
-                                status: _character.index == 0
-                                    ? 'Active'
-                                    : 'InActive',
-                                actions: null,
-                                isTitle: false))
-                            .then((value) => Navigator.of(context).pop(true));
-                      } else {
-                        db
-                            .addJob(TableModel(
-                                position: _positionController.text,
-                                type: _model.selectedJobType,
-                                postedDate: _postedDateController.text,
-                                lastDateToApply: _lastDateToApplyController.text,
-                                closeDate: _closeDateController.text,
-                                status: _character.index == 0
-                                    ? 'Active'
-                                    : 'InActive',
-                                actions: null,
-                                isTitle: false))
-                            .then((value) => Navigator.of(context).pop(true));
-                      }
+                      model.addOrEdit(isEditMode,tableData,context);
                     },
                   )
                 ],
@@ -371,7 +296,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
     );
   }
 
-  Widget buildCardFormDesktop(BuildContext context) {
+  Widget buildCardFormDesktop(BuildContext context,AddNewJobViewModel model) {
     return Expanded(
       child: SingleChildScrollView(
         child: Card(
@@ -384,9 +309,9 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
           ),
           child: Padding(
             padding:
-                const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
+            const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
             child: Form(
-              key: _form,
+              key: model.form,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -410,7 +335,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                         RoundedInputField(
                           hintText: "Name",
                           onChanged: (value) {},
-                          controller: _positionController,
+                          controller: model.positionController,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Field company name is mandatory.';
@@ -455,9 +380,9 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                               ),
                             ),
                           ),
-                          value: _model.selectedJobType,
-                          items: _model.dropdownMenuItemsJobType,
-                          onChanged: _model.changeJobType,
+                          value: model.selectedJobType,
+                          items: model.dropdownMenuItemsJobType,
+                          onChanged: model.changeJobType,
                         ),
                       ],
                     ),
@@ -480,13 +405,13 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                             return null;
                           },
                           hintText: "Select",
-                          controller: _postedDateController,
+                          controller: model.postedDateController,
                           readOnly: true,
                           onTap: () async {
                             DateTime? date =
-                                await Utils.getDateFromDatePicker(context);
+                            await Utils.getDateFromDatePicker(context);
 
-                            _postedDateController.text = _format.format(date!);
+                            model.postedDateController.text = model.format.format(date!);
                           },
                           // icon: Icons.access_time,
                         ),
@@ -507,12 +432,12 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                             return null;
                           },
                           hintText: "Select",
-                          controller: _lastDateToApplyController,
+                          controller: model.lastDateToApplyController,
                           readOnly: true,
                           onTap: () async {
                             DateTime? date = await Utils.getDateFromDatePicker(context);
 
-                            _lastDateToApplyController.text = _format.format(date!);
+                            model.lastDateToApplyController.text = model.format.format(date!);
                           },
                           // icon: Icons.access_time,
                         ),
@@ -535,12 +460,12 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                             return null;
                           },
                           hintText: "Select",
-                          controller: _closeDateController,
+                          controller: model.closeDateController,
                           readOnly: true,
                           onTap: () async {
                             DateTime? date = await Utils.getDateFromDatePicker(context);
 
-                            _closeDateController.text = _format.format(date!);
+                            model.closeDateController.text = model.format.format(date!);
                           },
                           // icon: Icons.access_time,
                         ),
@@ -561,12 +486,12 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                             return null;
                           },
                           hintText: "Select",
-                          controller: _lastDateToApplyController,
+                          controller: model.lastDateToApplyController,
                           readOnly: true,
                           onTap: () async {
                             DateTime? date = await Utils.getDateFromDatePicker(context);
 
-                            _lastDateToApplyController.text = _format.format(date!);
+                            model.lastDateToApplyController.text = model.format.format(date!);
                           },
                           // icon: Icons.access_time,
                         ),
@@ -584,21 +509,17 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                       const Text('Status:'),
                       Radio<RadioValues>(
                         value: RadioValues.active,
-                        groupValue: _character,
+                        groupValue: model.character,
                         onChanged: (RadioValues? value) {
-                          setState(() {
-                            _character = value!;
-                          });
+                          model.updateRadioValue(value);
                         },
                       ),
                       const Text('Active'),
                       Radio<RadioValues>(
                         value: RadioValues.inActive,
-                        groupValue: _character,
+                        groupValue: model.character,
                         onChanged: (RadioValues? value) {
-                          setState(() {
-                            _character = value!;
-                          });
+                            model.updateRadioValue(value);
                         },
                       ),
                       const Text('In Active'),
@@ -630,41 +551,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                         boarderRadius: 12,
                         // horizontalPadding: 14,
                         onTap: () {
-                          if (!_form.currentState!.validate()) {
-                            return;
-                          }
-                          if (widget.isEditMode) {
-                            db
-                                .updateJob(TableModel(
-                                    id: widget.tableData!.id,
-                                    position: _positionController.text,
-                                    type: _model.selectedJobType,
-                                    postedDate: _postedDateController.text,
-                                    lastDateToApply: _lastDateToApplyController.text,
-                                    closeDate: _closeDateController.text,
-                                    status: _character.index == 0
-                                        ? 'Active'
-                                        : 'InActive',
-                                    actions: null,
-                                    isTitle: false))
-                                .then(
-                                    (value) => Navigator.of(context).pop(true));
-                          } else {
-                            db
-                                .addJob(TableModel(
-                                    position: _positionController.text,
-                                    type: _model.selectedJobType,
-                                    postedDate: _postedDateController.text,
-                                    lastDateToApply: _lastDateToApplyController.text,
-                                    closeDate: _closeDateController.text,
-                                    status: _character.index == 0
-                                        ? 'Active'
-                                        : 'InActive',
-                                    actions: null,
-                                    isTitle: false))
-                                .then(
-                                    (value) => Navigator.of(context).pop(true));
-                          }
+                        model.addOrEdit(isEditMode,tableData!,context);
                         },
                       )
                     ],
@@ -678,10 +565,19 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
     );
   }
 
-  Db db = Db();
-
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 class FormRowWidget extends StatelessWidget {
   const FormRowWidget({

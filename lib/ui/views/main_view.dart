@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:jobick_shafeeque/responsive.dart';
-import 'package:jobick_shafeeque/screens/dashboard/components/app_bar.dart';
-import '../dashboard/dashboard_screen.dart';
-import 'components/side_menu.dart';
+import 'package:jobick_shafeeque/core/res/responsive.dart';
+import 'package:jobick_shafeeque/ui/widgets/app_bar.dart';
+import 'package:jobick_shafeeque/ui/widgets/side_menu.dart';
+import 'dashboard_view.dart';
 
-class MainScreen extends StatelessWidget {
-  const MainScreen({Key? key}) : super(key: key);
+class MainView extends StatelessWidget {
+  const MainView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class MainScreen extends StatelessWidget {
                    const Expanded(
                     // It takes 5/6 part of the screen
                     flex: 5,
-                    child: DashboardScreen(),
+                    child: DashboardView(),
                   ),
                 ],
               ),

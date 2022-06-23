@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jobick_shafeeque/constants.dart';
-import 'package:jobick_shafeeque/models/table_model.dart';
-import 'package:jobick_shafeeque/responsive.dart';
-import 'package:jobick_shafeeque/widgets/custom_icon_button_widget.dart';
+import 'package:jobick_shafeeque/core/res/constants.dart';
+import 'package:jobick_shafeeque/core/models/table_model.dart';
+
 
 /*class TableData extends StatelessWidget {
   const TableData({

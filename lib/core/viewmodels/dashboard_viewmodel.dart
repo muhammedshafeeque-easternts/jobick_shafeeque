@@ -20,7 +20,6 @@ class DashBoardViewModel extends BaseModel {
         notifyListeners();
       } else {
         db.insertTask(Job(
-          columnId: null,
             columnPosition: "Position",
             columnType: "Type",
             columnPostedDate: "Posted Date",

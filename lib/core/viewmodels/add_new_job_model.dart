@@ -113,7 +113,6 @@ class AddNewJobViewModel extends BaseModel {
     } else {
       db
           .insertTask(Job(
-        columnId: null,
           columnPosition: positionController.text,
           columnType: selectedJobType!,
           columnPostedDate: postedDateController.text,

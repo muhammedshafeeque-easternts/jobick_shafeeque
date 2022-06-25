@@ -7,7 +7,7 @@ import "package:path/path.dart";
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
-class Db {
+/*class Db {
 
   static final Db _instance = Db._internal();
 
@@ -85,4 +85,4 @@ class Db {
     return result;
   }
 
-}
+}*/

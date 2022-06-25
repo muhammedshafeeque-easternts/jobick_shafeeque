@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:jobick_shafeeque/core/moor_database/moor_database.dart';
 import 'package:jobick_shafeeque/core/repositories/dashboard_repository.dart';
 import 'package:jobick_shafeeque/core/viewmodels/dashboard_viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,7 +18,8 @@ Future<void> setupLocator() async {
   sl.registerFactory(() => AddNewJobViewModel(db: sl(), repository: sl()));
   sl.registerLazySingleton(() => AddNewJobRepository(db: sl(), client: sl()));
 
-  sl.registerLazySingleton(() => Db());
+  // sl.registerLazySingleton(() => Db());
+  sl.registerLazySingleton(() => AppDatabase());
   sl.registerLazySingleton(() => Http());
   final pref = await SharedPreferences.getInstance();
   sl.registerSingletonAsync(() async => pref);

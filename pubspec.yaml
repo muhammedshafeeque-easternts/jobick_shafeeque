@@ -42,11 +42,14 @@ dependencies:
   path_provider: ^2.0.11
   dio: ^4.0.6
   shared_preferences: ^2.0.15
+  moor_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.0
+  moor_generator: ^4.6.0+1
+  build_runner: ^2.1.11
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:jobick_shafeeque/core/moor_database/moor_database.dart';
 import 'package:jobick_shafeeque/core/res/constants.dart';
-import 'package:jobick_shafeeque/core/models/table_model.dart';
-import 'package:intl/intl.dart';
-import 'package:jobick_shafeeque/core/res/db.dart';
 import 'package:jobick_shafeeque/core/res/responsive.dart';
 import 'package:jobick_shafeeque/core/res/utils.dart';
 import 'package:jobick_shafeeque/core/viewmodels/add_new_job_model.dart';
-
 import '../widgets/app_bar.dart';
 import '../widgets/custom_icon_button_widget.dart';
 import '../widgets/rounded_input_field_widget.dart';
@@ -14,19 +11,19 @@ import 'base_view.dart';
 
 class AddNewJobView extends StatelessWidget {
   final bool isEditMode;
-  final TableModel? tableData;
+  final Job? tableData;
   const AddNewJobView({Key? key, required this.isEditMode, this.tableData})
       : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
     return BaseView<AddNewJobViewModel>(
-      onModelReady: (model) => model.initialize(isEditMode,tableData),
+      onModelReady: (model) => model.initialize(isEditMode, tableData),
       builder: (context, model, child) => Scaffold(
         body: Column(
           children: [
-            if (Responsive.isDesktop(context)) buildCardFormDesktop(context,model),
+            if (Responsive.isDesktop(context))
+              buildCardFormDesktop(context, model),
             if (!Responsive.isDesktop(context))
               Container(
                   child: const AppBarWidget(),
@@ -84,7 +81,7 @@ class AddNewJobView extends StatelessWidget {
                       const SizedBox(
                         height: defaultPadding,
                       ),
-                      buildCardFormMobile(context,model)
+                      buildCardFormMobile(context, model)
                     ],
                   ),
                 ),
@@ -96,7 +93,10 @@ class AddNewJobView extends StatelessWidget {
     );
   }
 
-  Card buildCardFormMobile(BuildContext context, AddNewJobViewModel model,) {
+  Card buildCardFormMobile(
+    BuildContext context,
+    AddNewJobViewModel model,
+  ) {
     return Card(
       elevation: 0,
       shape: const RoundedRectangleBorder(
@@ -166,7 +166,6 @@ class AddNewJobView extends StatelessWidget {
                 items: model.dropdownMenuItemsJobType,
                 onChanged: model.changeJobType,
               ),
-
               const FieldTitleWithStar(
                   titleName: 'Posted Date', topPadding: defaultPadding * 2),
               const SizedBox(
@@ -190,7 +189,8 @@ class AddNewJobView extends StatelessWidget {
                 // icon: Icons.access_time,
               ),
               const FieldTitleWithStar(
-                  titleName: 'Last Date To Apply', topPadding: defaultPadding * 2),
+                  titleName: 'Last Date To Apply',
+                  topPadding: defaultPadding * 2),
               const SizedBox(
                 height: defaultPadding / 1.5,
               ),
@@ -207,7 +207,8 @@ class AddNewJobView extends StatelessWidget {
                 onTap: () async {
                   DateTime? date = await Utils.getDateFromDatePicker(context);
 
-                  model.lastDateToApplyController.text = model.format.format(date!);
+                  model.lastDateToApplyController.text =
+                      model.format.format(date!);
                 },
                 // icon: Icons.access_time,
               ),
@@ -233,7 +234,6 @@ class AddNewJobView extends StatelessWidget {
                 },
                 // icon: Icons.access_time,
               ),
-
               const SizedBox(
                 height: defaultPadding * 2,
               ),
@@ -284,7 +284,7 @@ class AddNewJobView extends StatelessWidget {
                     boarderRadius: 12,
                     // horizontalPadding: 14,
                     onTap: () {
-                      model.addOrEdit(isEditMode,tableData,context);
+                      model.addOrEdit(isEditMode, tableData, context);
                     },
                   )
                 ],
@@ -296,7 +296,7 @@ class AddNewJobView extends StatelessWidget {
     );
   }
 
-  Widget buildCardFormDesktop(BuildContext context,AddNewJobViewModel model) {
+  Widget buildCardFormDesktop(BuildContext context, AddNewJobViewModel model) {
     return Expanded(
       child: SingleChildScrollView(
         child: Card(
@@ -309,7 +309,7 @@ class AddNewJobView extends StatelessWidget {
           ),
           child: Padding(
             padding:
-            const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
+                const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
             child: Form(
               key: model.form,
               child: Column(
@@ -328,7 +328,9 @@ class AddNewJobView extends StatelessWidget {
                   FormRowWidget(
                     firstChild: Column(
                       children: [
-                        const FieldTitleWithStar(titleName: 'Position',topPadding: defaultPadding * 2),
+                        const FieldTitleWithStar(
+                            titleName: 'Position',
+                            topPadding: defaultPadding * 2),
                         const SizedBox(
                           height: defaultPadding / 1.5,
                         ),
@@ -351,7 +353,8 @@ class AddNewJobView extends StatelessWidget {
                     secondChild: Column(
                       children: [
                         const FieldTitleWithStar(
-                            titleName: 'Job Type', topPadding: defaultPadding * 2),
+                            titleName: 'Job Type',
+                            topPadding: defaultPadding * 2),
                         const SizedBox(
                           height: defaultPadding / 1.5,
                         ),
@@ -370,7 +373,8 @@ class AddNewJobView extends StatelessWidget {
                                 horizontal: !Responsive.isDesktop(context)
                                     ? Responsive.screenWidth(context) * .03
                                     : Responsive.screenWidth(context) * .01,
-                                vertical: Responsive.screenHeight(context) * .001),
+                                vertical:
+                                    Responsive.screenHeight(context) * .001),
                             hintText: 'Choose',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
@@ -387,7 +391,6 @@ class AddNewJobView extends StatelessWidget {
                       ],
                     ),
                   ),
-
                   FormRowWidget(
                     firstChild: Column(
                       children: [
@@ -409,9 +412,10 @@ class AddNewJobView extends StatelessWidget {
                           readOnly: true,
                           onTap: () async {
                             DateTime? date =
-                            await Utils.getDateFromDatePicker(context);
+                                await Utils.getDateFromDatePicker(context);
 
-                            model.postedDateController.text = model.format.format(date!);
+                            model.postedDateController.text =
+                                model.format.format(date!);
                           },
                           // icon: Icons.access_time,
                         ),
@@ -420,7 +424,8 @@ class AddNewJobView extends StatelessWidget {
                     secondChild: Column(
                       children: [
                         const FieldTitleWithStar(
-                            titleName: 'Last Date To Apply', topPadding: defaultPadding * 2),
+                            titleName: 'Last Date To Apply',
+                            topPadding: defaultPadding * 2),
                         const SizedBox(
                           height: defaultPadding / 1.5,
                         ),
@@ -435,9 +440,11 @@ class AddNewJobView extends StatelessWidget {
                           controller: model.lastDateToApplyController,
                           readOnly: true,
                           onTap: () async {
-                            DateTime? date = await Utils.getDateFromDatePicker(context);
+                            DateTime? date =
+                                await Utils.getDateFromDatePicker(context);
 
-                            model.lastDateToApplyController.text = model.format.format(date!);
+                            model.lastDateToApplyController.text =
+                                model.format.format(date!);
                           },
                           // icon: Icons.access_time,
                         ),
@@ -448,7 +455,8 @@ class AddNewJobView extends StatelessWidget {
                     firstChild: Column(
                       children: [
                         const FieldTitleWithStar(
-                            titleName: 'Close Date', topPadding: defaultPadding * 2),
+                            titleName: 'Close Date',
+                            topPadding: defaultPadding * 2),
                         const SizedBox(
                           height: defaultPadding / 1.5,
                         ),
@@ -463,9 +471,11 @@ class AddNewJobView extends StatelessWidget {
                           controller: model.closeDateController,
                           readOnly: true,
                           onTap: () async {
-                            DateTime? date = await Utils.getDateFromDatePicker(context);
+                            DateTime? date =
+                                await Utils.getDateFromDatePicker(context);
 
-                            model.closeDateController.text = model.format.format(date!);
+                            model.closeDateController.text =
+                                model.format.format(date!);
                           },
                           // icon: Icons.access_time,
                         ),
@@ -474,7 +484,8 @@ class AddNewJobView extends StatelessWidget {
                     secondChild: Column(
                       children: [
                         const FieldTitleWithStar(
-                            titleName: 'Last Date To Apply', topPadding: defaultPadding * 2),
+                            titleName: 'Last Date To Apply',
+                            topPadding: defaultPadding * 2),
                         const SizedBox(
                           height: defaultPadding / 1.5,
                         ),
@@ -489,18 +500,17 @@ class AddNewJobView extends StatelessWidget {
                           controller: model.lastDateToApplyController,
                           readOnly: true,
                           onTap: () async {
-                            DateTime? date = await Utils.getDateFromDatePicker(context);
+                            DateTime? date =
+                                await Utils.getDateFromDatePicker(context);
 
-                            model.lastDateToApplyController.text = model.format.format(date!);
+                            model.lastDateToApplyController.text =
+                                model.format.format(date!);
                           },
                           // icon: Icons.access_time,
                         ),
-
                       ],
                     ),
                   ),
-
-
                   const SizedBox(
                     height: defaultPadding * 2,
                   ),
@@ -519,7 +529,7 @@ class AddNewJobView extends StatelessWidget {
                         value: RadioValues.inActive,
                         groupValue: model.character,
                         onChanged: (RadioValues? value) {
-                            model.updateRadioValue(value);
+                          model.updateRadioValue(value);
                         },
                       ),
                       const Text('In Active'),
@@ -551,7 +561,7 @@ class AddNewJobView extends StatelessWidget {
                         boarderRadius: 12,
                         // horizontalPadding: 14,
                         onTap: () {
-                        model.addOrEdit(isEditMode,tableData!,context);
+                          model.addOrEdit(isEditMode, tableData!, context);
                         },
                       )
                     ],
@@ -564,20 +574,7 @@ class AddNewJobView extends StatelessWidget {
       ),
     );
   }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 class FormRowWidget extends StatelessWidget {
   const FormRowWidget({

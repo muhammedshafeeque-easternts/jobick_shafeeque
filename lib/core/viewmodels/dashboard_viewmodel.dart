@@ -1,17 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:jobick_shafeeque/core/models/table_model.dart';
+import 'package:jobick_shafeeque/core/moor_database/moor_database.dart';
 import 'package:jobick_shafeeque/core/repositories/dashboard_repository.dart';
-import 'package:jobick_shafeeque/core/res/db.dart';
 import 'base_model.dart';
 
 class DashBoardViewModel extends BaseModel {
   final DashBoardRepository repository;
-  final Db db;
+  final AppDatabase db;
   DashBoardViewModel({required this.repository, required this.db});
 
 
 
-  List<TableModel>? _tableValues;
+  List<Job>? _tableValues;
 
 
 
@@ -21,15 +19,16 @@ class DashBoardViewModel extends BaseModel {
         _tableValues = value;
         notifyListeners();
       } else {
-        db.addJob(TableModel(
-            position: "Position",
-            type: "Type",
-            postedDate: "Posted Date",
-            lastDateToApply: 'Last Date To Apply',
-            closeDate: 'Close Date',
-            status: 'Status',
-            actions: 'Actions',
-            isTitle: true));
+        db.insertTask(Job(
+          columnId: null,
+            columnPosition: "Position",
+            columnType: "Type",
+            columnPostedDate: "Posted Date",
+            columnLastDateToApply: 'Last Date To Apply',
+            columnCloseDate: 'Close Date',
+            columnStatus: 'Status',
+            columnActions: 'Actions',
+            columnIsTitle: true));
         db.getAllJobs().then((value) {
           _tableValues = value;
           notifyListeners();
@@ -38,7 +37,7 @@ class DashBoardViewModel extends BaseModel {
     });
   }
 
-  List<TableModel>? get tableValues => _tableValues;
+  List<Job>? get tableValues => _tableValues;
 
   void getAllJobs() {
     db.getAllJobs().then((value) {
@@ -47,8 +46,8 @@ class DashBoardViewModel extends BaseModel {
     });
   }
 
-  void deleteJob(TableModel item) {
-    db.deleteJob(item.id!).then((value) {
+  void deleteJob(Job item) {
+    db.deleteTask(item).then((value) {
       tableValues!.remove(item);
       notifyListeners();
     });

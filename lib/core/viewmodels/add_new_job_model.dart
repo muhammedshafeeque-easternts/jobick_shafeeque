@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jobick_shafeeque/core/models/table_model.dart';
+import 'package:jobick_shafeeque/core/moor_database/moor_database.dart';
 import 'package:jobick_shafeeque/core/repositories/add_new_job_repository.dart';
-import 'package:jobick_shafeeque/core/res/db.dart';
 import 'package:jobick_shafeeque/ui/views/add_new_job_view.dart';
 import 'package:intl/intl.dart';
 import 'base_model.dart';
@@ -9,7 +8,7 @@ import 'base_model.dart';
 
 class AddNewJobViewModel extends BaseModel {
   final AddNewJobRepository repository;
-  final Db db;
+  final AppDatabase db;
   AddNewJobViewModel({required this.repository,required this.db});
 
 
@@ -47,15 +46,15 @@ class AddNewJobViewModel extends BaseModel {
       _dropdownMenuItemsJobType;
 
 
-  void initialize(bool isEditMode,TableModel? tableData) {
+  void initialize(bool isEditMode,Job? tableData) {
     loadJobTypes();
     if (isEditMode) {
-      _postedDateController.text = tableData!.postedDate!;
-      _lastDateToApplyController.text = tableData.lastDateToApply!;
-      _closeDateController.text = tableData.closeDate!;
-      _positionController.text = tableData.position!;
-      _model.changeJobType(tableData.type!);
-      _character = tableData.status=='Active'?RadioValues.active:RadioValues.inActive;
+      _postedDateController.text = tableData!.columnPostedDate!;
+      _lastDateToApplyController.text = tableData.columnLastDateToApply!;
+      _closeDateController.text = tableData.columnCloseDate!;
+      _positionController.text = tableData.columnPosition!;
+      _model.changeJobType(tableData.columnType);
+      _character = tableData.columnStatus=='Active'?RadioValues.active:RadioValues.inActive;
     }
   }
 
@@ -91,40 +90,39 @@ class AddNewJobViewModel extends BaseModel {
   RadioValues get character => _character;
 
 
-  void addOrEdit(bool isEditMode,TableModel? tableData,BuildContext context) {
+  void addOrEdit(bool isEditMode,Job? tableData,BuildContext context) {
     if (!_form.currentState!.validate()) {
       // notifyListeners();
       return;
     }
     if (isEditMode) {
       db
-          .updateJob(TableModel(
-          id: tableData!.id,
-          position: positionController.text,
-          type: selectedJobType,
-          postedDate: postedDateController.text,
-          lastDateToApply: lastDateToApplyController.text,
-          closeDate: closeDateController.text,
-          status: character.index == 0
+          .updateTask(Job(
+          columnId: tableData!.columnId,
+          columnPosition: positionController.text,
+          columnType: selectedJobType!,
+          columnPostedDate: postedDateController.text,
+          columnLastDateToApply: lastDateToApplyController.text,
+          columnCloseDate: closeDateController.text,
+          columnStatus: character.index == 0
               ? 'Active'
               : 'InActive',
-          actions: null,
-          isTitle: false))
+          columnActions: '',))
           .then(
               (value) => Navigator.of(context).pop(true));
     } else {
       db
-          .addJob(TableModel(
-          position: positionController.text,
-          type: selectedJobType,
-          postedDate: postedDateController.text,
-          lastDateToApply: lastDateToApplyController.text,
-          closeDate: closeDateController.text,
-          status: character.index == 0
+          .insertTask(Job(
+        columnId: null,
+          columnPosition: positionController.text,
+          columnType: selectedJobType!,
+          columnPostedDate: postedDateController.text,
+          columnLastDateToApply: lastDateToApplyController.text,
+          columnCloseDate: closeDateController.text,
+          columnStatus: character.index == 0
               ? 'Active'
               : 'InActive',
-          actions: null,
-          isTitle: false))
+          columnActions: '',))
           .then(
               (value) => Navigator.of(context).pop(true));
     }

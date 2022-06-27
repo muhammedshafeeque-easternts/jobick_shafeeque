@@ -1,5 +1,8 @@
-import 'package:moor_flutter/moor_flutter.dart';
-
+import 'dart:io';
+import 'package:drift/native.dart';
+import 'package:drift/drift.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
 part 'moor_database.g.dart';
 
 class Jobs extends Table {
@@ -15,7 +18,7 @@ class Jobs extends Table {
   TextColumn get columnCloseDate => text()();
   TextColumn get columnStatus => text()();
   TextColumn get columnActions => text()();
-  BoolColumn get columnIsTitle => boolean().withDefault(const Constant(false))();
+  BoolColumn get columnIsTitle => boolean()();
   // IntColumn get columnIsTitle => integer()();
   // BoolColumn get completed => boolean().withDefault(const Constant(false))();
 }
@@ -23,36 +26,57 @@ class Jobs extends Table {
 
 
 
-@UseMoor(tables: [Jobs])
+@DriftDatabase(tables: [Jobs])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase()
-      : super(FlutterQueryExecutor.inDatabaseFolder(
-            path: 'db.sqlite', logStatements: true));
+  // we tell the database where to store the data with this constructor
+  AppDatabase() : super(_openConnection());
+
+  Future<List<Job>> getAllJobs()async => await select(jobs).get();
+  // Stream<List<Job>> watchAllJobs() => select(jobs).watch();
+
+  Future<int> insertTask(JobsCompanion job) async {
+    return await into(jobs).insert(job);
+  }
+
+  Future<int> deleteTask(Job job) async {
+    return await delete(jobs).delete(job);
+  }
+
+  Future<bool> updateTask(Job job) async {
+    return await update(jobs).replace(job);
+  }
+
+/*  Future insertTask(Insertable<Job> job) => into(jobs).insert(job);
+  Future updateTask(Insertable<Job> job) => update(jobs).replace(job);
+  Future deleteTask(Insertable<Job> job) => delete(jobs).delete(job);*/
 
   @override
+  int get schemaVersion => 1;
+}
+/*  @override
   int get schemaVersion => 1;
 
   Future<List<Job>> getAllJobs() => select(jobs).get();
   Stream<List<Job>> watchAllJobs() => select(jobs).watch();
   Future insertTask(Insertable<Job> job) => into(jobs).insert(job);
   Future updateTask(Insertable<Job> job) => update(jobs).replace(job);
-  Future deleteTask(Insertable<Job> job) => delete(jobs).delete(job);
+  Future deleteTask(Insertable<Job> job) => delete(jobs).delete(job);*/
 
-/*
 
-  @override
-  MigrationStrategy get migration => MigrationStrategy(
-        onUpgrade: (migrator, from, to) async {
-          if (from == 1) {
-            await migrator.addColumn(jobsd, jobsd.tagName);
-            await migrator.createTable(tags);
-          }
-        },
-        beforeOpen: (db, details) async {
-          await db.customStatement('PRAGMA foreign_keys = ON');
-        },
-      );*/
+
+
+LazyDatabase _openConnection() {
+  // the LazyDatabase util lets us find the right location for the file async.
+  return LazyDatabase(() async {
+    // put the database file, called db.sqlite here, into the documents folder
+    // for your app.
+    final dbFolder = await getApplicationDocumentsDirectory();
+    final file = File(p.join(dbFolder.path, 'db.sqlite'));
+    return NativeDatabase(file);
+  });
 }
+
+
 
 /*@UseDao(
   tables: [Jobsd],

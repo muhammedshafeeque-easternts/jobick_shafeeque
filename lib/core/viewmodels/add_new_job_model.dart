@@ -4,7 +4,7 @@ import 'package:jobick_shafeeque/core/repositories/add_new_job_repository.dart';
 import 'package:jobick_shafeeque/ui/views/add_new_job_view.dart';
 import 'package:intl/intl.dart';
 import 'base_model.dart';
-// import 'package:jobick_shafeeque/core/base_model.dart';
+import 'package:drift/drift.dart' as dr;
 
 class AddNewJobViewModel extends BaseModel {
   final AddNewJobRepository repository;
@@ -49,16 +49,16 @@ class AddNewJobViewModel extends BaseModel {
   void initialize(bool isEditMode,Job? tableData) {
     loadJobTypes();
     if (isEditMode) {
-      _postedDateController.text = tableData!.columnPostedDate!;
-      _lastDateToApplyController.text = tableData.columnLastDateToApply!;
-      _closeDateController.text = tableData.columnCloseDate!;
-      _positionController.text = tableData.columnPosition!;
-      _model.changeJobType(tableData.columnType);
+      _postedDateController.text = tableData!.columnPostedDate;
+      _lastDateToApplyController.text = tableData.columnLastDateToApply;
+      _closeDateController.text = tableData.columnCloseDate;
+      _positionController.text = tableData.columnPosition;
+      changeJobType(tableData.columnType);
       _character = tableData.columnStatus=='Active'?RadioValues.active:RadioValues.inActive;
     }
   }
 
-  late AddNewJobViewModel _model;
+
   final _format = DateFormat("yyyy-MM-dd");
 
   get format => _format;
@@ -107,21 +107,23 @@ class AddNewJobViewModel extends BaseModel {
           columnStatus: character.index == 0
               ? 'Active'
               : 'InActive',
-          columnActions: '',))
+          columnActions: '',
+      columnIsTitle: false,
+      ))
           .then(
               (value) => Navigator.of(context).pop(true));
     } else {
       db
-          .insertTask(Job(
-          columnPosition: positionController.text,
-          columnType: selectedJobType!,
-          columnPostedDate: postedDateController.text,
-          columnLastDateToApply: lastDateToApplyController.text,
-          columnCloseDate: closeDateController.text,
-          columnStatus: character.index == 0
+          .insertTask(JobsCompanion(
+          columnPosition: dr.Value(positionController.text),
+          columnType: dr.Value(selectedJobType!),
+          columnPostedDate: dr.Value(postedDateController.text),
+          columnLastDateToApply: dr.Value(lastDateToApplyController.text),
+          columnCloseDate: dr.Value(closeDateController.text),
+          columnStatus: dr.Value(character.index == 0
               ? 'Active'
-              : 'InActive',
-          columnActions: '',))
+              : 'InActive'),
+          columnActions: const dr.Value('')))
           .then(
               (value) => Navigator.of(context).pop(true));
     }

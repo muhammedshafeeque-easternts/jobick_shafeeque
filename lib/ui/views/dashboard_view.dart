@@ -270,62 +270,56 @@ class _DashboardViewState extends State<DashboardView> {
                                             child: Text(
                                               item.columnId == 1
                                                   ? 'No'
-                                                  : '${item.columnId! - 1}',
+                                                  : '${item.columnId - 1}',
                                               style: TextStyle(
-                                                  fontWeight:
-                                                      item.columnIsTitle!
-                                                          ? FontWeight.bold
-                                                          : FontWeight.w500),
+                                                  fontWeight: item.columnIsTitle
+                                                      ? FontWeight.bold
+                                                      : FontWeight.w500),
                                             )),
                                         Expanded(
                                             flex: 3,
                                             child: Text(
-                                              item.columnPosition!,
+                                              item.columnPosition,
                                               style: TextStyle(
-                                                  fontWeight:
-                                                      item.columnIsTitle!
-                                                          ? FontWeight.w900
-                                                          : FontWeight.w500),
+                                                  fontWeight: item.columnIsTitle
+                                                      ? FontWeight.w900
+                                                      : FontWeight.w500),
                                             )),
                                         Expanded(
                                             flex: 2,
                                             child: Text(
-                                              item.columnType!,
+                                              item.columnType,
                                               style: TextStyle(
-                                                  fontWeight:
-                                                      item.columnIsTitle!
-                                                          ? FontWeight.bold
-                                                          : FontWeight.w500),
+                                                  fontWeight: item.columnIsTitle
+                                                      ? FontWeight.bold
+                                                      : FontWeight.w500),
                                             )),
                                         Expanded(
                                             flex: 2,
                                             child: Text(
-                                              item.columnPostedDate!,
+                                              item.columnPostedDate,
                                               style: TextStyle(
-                                                  fontWeight:
-                                                      item.columnIsTitle!
-                                                          ? FontWeight.bold
-                                                          : FontWeight.w500),
+                                                  fontWeight: item.columnIsTitle
+                                                      ? FontWeight.bold
+                                                      : FontWeight.w500),
                                             )),
                                         Expanded(
                                             flex: 2,
                                             child: Text(
-                                              item.columnLastDateToApply!,
+                                              item.columnLastDateToApply,
                                               style: TextStyle(
-                                                  fontWeight:
-                                                      item.columnIsTitle!
-                                                          ? FontWeight.bold
-                                                          : FontWeight.w500),
+                                                  fontWeight: item.columnIsTitle
+                                                      ? FontWeight.bold
+                                                      : FontWeight.w500),
                                             )),
                                         Expanded(
                                             flex: 2,
                                             child: Text(
-                                              item.columnCloseDate!,
+                                              item.columnCloseDate,
                                               style: TextStyle(
-                                                  fontWeight:
-                                                      item.columnIsTitle!
-                                                          ? FontWeight.bold
-                                                          : FontWeight.w500),
+                                                  fontWeight: item.columnIsTitle
+                                                      ? FontWeight.bold
+                                                      : FontWeight.w500),
                                             )),
                                         Expanded(
                                             flex: 2,
@@ -337,7 +331,7 @@ class _DashboardViewState extends State<DashboardView> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             36),
-                                                    color: item.columnIsTitle!
+                                                    color: item.columnIsTitle
                                                         ? null
                                                         : item.columnStatus ==
                                                                 'Active'
@@ -348,14 +342,14 @@ class _DashboardViewState extends State<DashboardView> {
                                                   ),
                                                   child: Center(
                                                     child: Text(
-                                                      item.columnStatus!,
+                                                      item.columnStatus,
                                                       style: TextStyle(
                                                           fontWeight: item
-                                                                  .columnIsTitle!
+                                                                  .columnIsTitle
                                                               ? FontWeight.bold
                                                               : FontWeight.w500,
                                                           color: item
-                                                                  .columnIsTitle!
+                                                                  .columnIsTitle
                                                               ? null
                                                               : item.columnStatus ==
                                                                       'Active'
@@ -385,16 +379,16 @@ class _DashboardViewState extends State<DashboardView> {
                                             child: Row(
                                               children: [
                                                 Text(
-                                                  item.columnActions ?? '',
+                                                  item.columnActions,
                                                   style: TextStyle(
                                                       fontWeight:
-                                                          item.columnIsTitle!
+                                                          item.columnIsTitle
                                                               ? FontWeight.bold
                                                               : null),
                                                 ),
                                                 Visibility(
-                                                  visible: item.columnActions ==
-                                                      null,
+                                                  visible: item
+                                                      .columnActions.isEmpty,
                                                   child: Row(
                                                     children: [
                                                       CustomIconButtonWidget(
@@ -473,27 +467,27 @@ class _DashboardViewState extends State<DashboardView> {
                                                                               children: [
                                                                                 height10(),
                                                                                 Text(
-                                                                                  item.columnPosition!,
+                                                                                  item.columnPosition,
                                                                                   style: popupItemTextTheme,
                                                                                 ),
                                                                                 height10(),
                                                                                 Text(
-                                                                                  item.columnType!,
+                                                                                  item.columnType,
                                                                                   style: popupItemTextTheme,
                                                                                 ),
                                                                                 height10(),
                                                                                 Text(
-                                                                                  item.columnPostedDate!,
+                                                                                  item.columnPostedDate,
                                                                                   style: popupItemTextTheme,
                                                                                 ),
                                                                                 height10(),
                                                                                 Text(
-                                                                                  item.columnLastDateToApply!,
+                                                                                  item.columnLastDateToApply,
                                                                                   style: popupItemTextTheme,
                                                                                 ),
                                                                                 height10(),
                                                                                 Text(
-                                                                                  item.columnCloseDate!,
+                                                                                  item.columnCloseDate,
                                                                                   style: popupItemTextTheme,
                                                                                 ),
                                                                                 // height10(),

@@ -123,7 +123,7 @@ class AddNewJobViewModel extends BaseModel {
           columnStatus: dr.Value(character.index == 0
               ? 'Active'
               : 'InActive'),
-          columnActions: const dr.Value('')))
+          columnActions: const dr.Value(''),columnIsTitle: const dr.Value(false)))
           .then(
               (value) => Navigator.of(context).pop(true));
     }

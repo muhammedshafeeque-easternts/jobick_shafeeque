@@ -11,6 +11,7 @@ import 'package:jobick_shafeeque/ui/widgets/custom_icon_button_widget.dart';
 import 'package:jobick_shafeeque/ui/widgets/side_menu.dart';
 import 'package:provider/provider.dart';
 import '../widgets/header_widget.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({Key? key}) : super(key: key);
@@ -23,11 +24,14 @@ class _DashboardViewState extends State<DashboardView> {
   final ScrollController _scrollController =
       ScrollController(initialScrollOffset: 5);
 
+  late DashBoardViewModel model;
+
   @override
   void initState() {
     super.initState();
-    // Provider.of<DashBoardViewModel>(context, listen: false).initialize();
-    context.read<DashBoardViewModel>().initialize();
+    model=Provider.of<DashBoardViewModel>(context, listen: false);
+    model.initialize();
+    // context.read<DashBoardViewModel>().initialize();
   }
 
   @override
@@ -76,8 +80,8 @@ class _DashboardViewState extends State<DashboardView> {
                                       scrollDirection: Axis.horizontal,
                                       controller: _scrollController,
                                       child: _getDataTable(context))),
-                              Consumer<DashBoardViewModel>(
-                                  builder: (context, model, child) {
+                              Observer(
+                                  builder: (_) {
                                 return Visibility(
                                   visible: model.tableValues != null &&
                                       model.tableValues!.length > 1,
@@ -223,7 +227,7 @@ class _DashboardViewState extends State<DashboardView> {
             topLeft: Radius.circular(defaultPadding),
             bottomLeft: Radius.circular(defaultPadding)),
       ),
-      child: Consumer<DashBoardViewModel>(builder: (context, model, child) {
+      child: Observer(builder: (_) {
         return ConstrainedBox(
             constraints: BoxConstraints(
                 minWidth: Responsive.isDesktop(context)

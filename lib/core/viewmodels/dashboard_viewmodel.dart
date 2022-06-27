@@ -1,26 +1,43 @@
 import 'package:jobick_shafeeque/core/moor_database/moor_database.dart';
 import 'package:jobick_shafeeque/core/repositories/dashboard_repository.dart';
-import 'base_model.dart';
+import 'package:mobx/mobx.dart';
 import 'package:drift/drift.dart' as dr;
+part 'dashboard_viewmodel.g.dart';
 
-class DashBoardViewModel extends BaseModel {
-  final DashBoardRepository repository;
-  final AppDatabase db;
-  DashBoardViewModel({required this.repository, required this.db});
+enum StoreState { initial, loading, loaded }
+
+class DashBoardViewModel extends _DashBoardViewModel with _$DashBoardViewModel {
+  DashBoardViewModel(DashBoardRepository repository,AppDatabase db) : super(repository,db);
+}
+
+abstract class _DashBoardViewModel with Store {
+  final DashBoardRepository _repository;
+  final AppDatabase _db;
+  _DashBoardViewModel(this._repository,this._db);
+
+
+  @observable
+  List<Job>? tableValues;
+
+  @computed
+  StoreState get state {
+    if (tableValues == null) {
+      return StoreState.loading;
+    }
+    return tableValues!.isEmpty
+        ? StoreState.initial
+        : StoreState.loaded;
+  }
 
 
 
-  List<Job>? _tableValues;
-
-
-
-  void initialize() {
-    db.getAllJobs().then((value) {
+  @action
+  Future initialize()async {
+    _db.getAllJobs().then((value) {
       if (value.isNotEmpty) {
-        _tableValues = value;
-        notifyListeners();
+        tableValues = value;
       } else {
-        db.insertTask(const JobsCompanion(
+        _db.insertTask(const JobsCompanion(
             columnPosition: dr.Value("Position"),
             columnType: dr.Value("Type"),
             columnPostedDate: dr.Value("Posted Date"),
@@ -29,27 +46,26 @@ class DashBoardViewModel extends BaseModel {
             columnStatus: dr.Value('Status'),
             columnActions: dr.Value('Actions'),
             columnIsTitle: dr.Value(true)));
-        db.getAllJobs().then((value) {
-          _tableValues = value;
-          notifyListeners();
+        _db.getAllJobs().then((value) {
+          tableValues = value;
         });
       }
     });
   }
 
-  List<Job>? get tableValues => _tableValues;
 
-  void getAllJobs() {
-    db.getAllJobs().then((value) {
-      _tableValues = value;
-      notifyListeners();
+  @action
+  Future getAllJobs() async{
+    _db.getAllJobs().then((value) => {
+      tableValues = value
     });
   }
 
+  @action
   void deleteJob(Job item) {
-    db.deleteTask(item).then((value) {
+    _db.deleteTask(item).then((value) {
       tableValues!.remove(item);
-      notifyListeners();
     });
   }
+
 }

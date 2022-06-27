@@ -12,7 +12,7 @@ final sl = GetIt.instance;
 
 Future<void> setupLocator() async {
 
-  sl.registerFactory(() => DashBoardViewModel(db: sl(), repository: sl()));
+  sl.registerFactory(() => DashBoardViewModel(sl(),sl()));
   sl.registerLazySingleton(() => DashBoardRepository(db: sl(), client: sl()));
 
   sl.registerFactory(() => AddNewJobViewModel(db: sl(), repository: sl()));

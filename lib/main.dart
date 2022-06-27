@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => MenuController(),
         ),
-        ChangeNotifierProvider<DashBoardViewModel>(
+        Provider<DashBoardViewModel>(
           create: (_) => locator.sl<DashBoardViewModel>(),
         ),
       ],

@@ -1,24 +1,27 @@
 import 'package:jobick_shafeeque/core/moor_database/moor_database.dart';
 import 'package:jobick_shafeeque/core/repositories/dashboard_repository.dart';
 import 'package:mobx/mobx.dart';
-import 'base_model.dart';
 import 'package:drift/drift.dart' as dr;
 part 'dashboard_viewmodel.g.dart';
 
+class DashBoardViewModel extends _DashBoardViewModel with _$DashBoardViewModel {
+  DashBoardViewModel(DashBoardRepository repository,AppDatabase db) : super(repository,db);
+}
+
 enum StoreState { initial, loading, loaded }
-class DashBoardViewModel  {
+
+abstract class _DashBoardViewModel with Store {
   final DashBoardRepository repository;
   final AppDatabase db;
-  DashBoardViewModel({required this.repository, required this.db});
+  _DashBoardViewModel(this.repository,this.db);
+
+
 
 
   @observable
-  ObservableFuture<List<Job>?>? _tableValuesFuture;
+  List<Job>? tableValues;
 
-  @observable
-  List<Job>? _tableValues;
-
-  @computed
+/*  @computed
   StoreState get state {
     if (_tableValuesFuture == null ||
         _tableValuesFuture!.status == FutureStatus.rejected) {
@@ -27,42 +30,43 @@ class DashBoardViewModel  {
     return _tableValuesFuture!.status == FutureStatus.pending
         ? StoreState.loading
         : StoreState.loaded;
-  }
+  }*/
 
   @action
-  void initialize()async {
-   if(_tableValues!.isEmpty){
-     db.insertTask(const JobsCompanion(
-         columnPosition: dr.Value("Position"),
-         columnType: dr.Value("Type"),
-         columnPostedDate: dr.Value("Posted Date"),
-         columnLastDateToApply: dr.Value('Last Date To Apply'),
-         columnCloseDate: dr.Value('Close Date'),
-         columnStatus: dr.Value('Status'),
-         columnActions: dr.Value('Actions'),
-         columnIsTitle: dr.Value(true)));
-     _tableValuesFuture =
-         ObservableFuture(db.getAllJobs());
-     _tableValues = await _tableValuesFuture ;
-     return ;
-   }
-   _tableValuesFuture =
-       ObservableFuture(db.getAllJobs());
-   _tableValues = await _tableValuesFuture ;
+  Future<void> initialize()async {
+    db.getAllJobs().then((value) {
+      tableValues = value;
+      if(tableValues!.isEmpty){
+        db.insertTask(const JobsCompanion(
+            columnPosition: dr.Value("Position"),
+            columnType: dr.Value("Type"),
+            columnPostedDate: dr.Value("Posted Date"),
+            columnLastDateToApply: dr.Value('Last Date To Apply'),
+            columnCloseDate: dr.Value('Close Date'),
+            columnStatus: dr.Value('Status'),
+            columnActions: dr.Value('Actions'),
+            columnIsTitle: dr.Value(true)));
+        db.getAllJobs().then((value) {
+          tableValues = value;
+        });
+      }
+    });
+
+
   }
 
 
   @action
-  void getAllJobs() async{
-    _tableValuesFuture =
-        ObservableFuture(db.getAllJobs());
-    _tableValues = await _tableValuesFuture ;
+  Future<void> getAllJobs() async{
+        db.getAllJobs().then((value) {
+          tableValues = value;
+        });
   }
 
   @action
   void deleteJob(Job item) {
     db.deleteTask(item).then((value) {
-      _tableValues!.remove(item);
+      tableValues!.remove(item);
     });
   }
 

@@ -1,6 +1,8 @@
 import 'dart:ui';
-
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:jobick_shafeeque/core/models/table_model.dart';
 import 'package:jobick_shafeeque/core/res/routes.dart';
 import 'package:jobick_shafeeque/core/viewmodels/dashboard_viewmodel.dart';
 import 'package:jobick_shafeeque/core/viewmodels/drawer_controller.dart';
@@ -9,7 +11,15 @@ import 'package:jobick_shafeeque/locator.dart'  as locator;
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+
+  Hive.registerAdapter(JobModelAdapter());
+  await Hive.openBox<JobModel>('jobs_db');
+
+
   await locator.setupLocator();
+
   runApp(const MyApp());
 }
 

@@ -1,11 +1,11 @@
 import 'package:get_it/get_it.dart';
-import 'package:jobick_shafeeque/core/moor_database/moor_database.dart';
+import 'package:jobick_shafeeque/core/hive_db_functions.dart';
 import 'package:jobick_shafeeque/core/repositories/dashboard_repository.dart';
 import 'package:jobick_shafeeque/core/viewmodels/dashboard_viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/http.dart';
 import 'core/repositories/add_new_job_repository.dart';
-import 'core/res/db.dart';
+
 import 'core/viewmodels/add_new_job_model.dart';
 
 final sl = GetIt.instance;

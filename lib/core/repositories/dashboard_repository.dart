@@ -1,5 +1,5 @@
+import 'package:jobick_shafeeque/core/hive_db_functions.dart';
 import 'package:jobick_shafeeque/core/http.dart';
-import 'package:jobick_shafeeque/core/moor_database/moor_database.dart';
 
 class  DashBoardRepository {
   DashBoardRepository({required this.db ,required this.client});

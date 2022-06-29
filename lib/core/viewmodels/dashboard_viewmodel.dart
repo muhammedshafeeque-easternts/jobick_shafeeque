@@ -1,34 +1,37 @@
-import 'package:jobick_shafeeque/core/moor_database/moor_database.dart';
+import 'package:flutter/foundation.dart';
+import 'package:jobick_shafeeque/core/hive_db_functions.dart';
+import 'package:jobick_shafeeque/core/models/table_model.dart';
 import 'package:jobick_shafeeque/core/repositories/dashboard_repository.dart';
 import 'base_model.dart';
-import 'package:drift/drift.dart' as dr;
 
 class DashBoardViewModel extends BaseModel {
   final DashBoardRepository repository;
   final AppDatabase db;
-  DashBoardViewModel({required this.repository, required this.db});
+  DashBoardViewModel({required this.db ,required this.repository});
 
 
 
-  List<Job>? _tableValues;
+  List<JobModel>? _tableValues ;
 
 
 
   void initialize() {
+
     db.getAllJobs().then((value) {
       if (value.isNotEmpty) {
         _tableValues = value;
         notifyListeners();
       } else {
-        db.insertTask(const JobsCompanion(
-            columnPosition: dr.Value("Position"),
-            columnType: dr.Value("Type"),
-            columnPostedDate: dr.Value("Posted Date"),
-            columnLastDateToApply: dr.Value('Last Date To Apply'),
-            columnCloseDate: dr.Value('Close Date'),
-            columnStatus: dr.Value('Status'),
-            columnActions: dr.Value('Actions'),
-            columnIsTitle: dr.Value(true)));
+        db.addJob( JobModel(
+          id: 1,
+            position: "Position",
+            type: "Type",
+            postedDate: "Posted Date",
+            lastDateToApply: 'Last Date To Apply',
+            closeDate: 'Close Date',
+            status: 'Status',
+            actions: 'Actions',
+            isTitle: true));
         db.getAllJobs().then((value) {
           _tableValues = value;
           notifyListeners();
@@ -37,7 +40,7 @@ class DashBoardViewModel extends BaseModel {
     });
   }
 
-  List<Job>? get tableValues => _tableValues;
+  List<JobModel>? get tableValues => _tableValues;
 
   void getAllJobs() {
     db.getAllJobs().then((value) {
@@ -46,8 +49,8 @@ class DashBoardViewModel extends BaseModel {
     });
   }
 
-  void deleteJob(Job item) {
-    db.deleteTask(item).then((value) {
+  void deleteJob(JobModel item) {
+    db.deleteJob(item).then((value) {
       tableValues!.remove(item);
       notifyListeners();
     });

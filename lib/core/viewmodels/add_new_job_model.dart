@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:jobick_shafeeque/core/moor_database/moor_database.dart';
+import 'package:jobick_shafeeque/core/hive_db_functions.dart';
+import 'package:jobick_shafeeque/core/models/table_model.dart';
 import 'package:jobick_shafeeque/core/repositories/add_new_job_repository.dart';
 import 'package:jobick_shafeeque/ui/views/add_new_job_view.dart';
 import 'package:intl/intl.dart';
 import 'base_model.dart';
-import 'package:drift/drift.dart' as dr;
 
 class AddNewJobViewModel extends BaseModel {
   final AddNewJobRepository repository;
@@ -46,15 +46,15 @@ class AddNewJobViewModel extends BaseModel {
       _dropdownMenuItemsJobType;
 
 
-  void initialize(bool isEditMode,Job? tableData) {
+  void initialize(bool isEditMode,JobModel? tableData) {
     loadJobTypes();
     if (isEditMode) {
-      _postedDateController.text = tableData!.columnPostedDate;
-      _lastDateToApplyController.text = tableData.columnLastDateToApply;
-      _closeDateController.text = tableData.columnCloseDate;
-      _positionController.text = tableData.columnPosition;
-      changeJobType(tableData.columnType);
-      _character = tableData.columnStatus=='Active'?RadioValues.active:RadioValues.inActive;
+      _postedDateController.text = tableData!.postedDate;
+      _lastDateToApplyController.text = tableData.lastDateToApply;
+      _closeDateController.text = tableData.closeDate;
+      _positionController.text = tableData.position;
+      changeJobType(tableData.type);
+      _character = tableData.status=='Active'?RadioValues.active:RadioValues.inActive;
     }
   }
 
@@ -90,42 +90,46 @@ class AddNewJobViewModel extends BaseModel {
   RadioValues get character => _character;
 
 
-  void addOrEdit(bool isEditMode,Job? tableData,BuildContext context) {
+  void addOrEdit(bool isEditMode,JobModel? tableData,BuildContext context) {
     if (!_form.currentState!.validate()) {
       // notifyListeners();
       return;
     }
     if (isEditMode) {
       db
-          .updateTask(Job(
-          columnId: tableData!.columnId,
-          columnPosition: positionController.text,
-          columnType: selectedJobType!,
-          columnPostedDate: postedDateController.text,
-          columnLastDateToApply: lastDateToApplyController.text,
-          columnCloseDate: closeDateController.text,
-          columnStatus: character.index == 0
+          .updateJob(JobModel(
+          id: tableData!.id,
+          position: positionController.text,
+          type: selectedJobType!,
+          postedDate: postedDateController.text,
+          lastDateToApply: lastDateToApplyController.text,
+          closeDate: closeDateController.text,
+          status: character.index == 0
               ? 'Active'
               : 'InActive',
-          columnActions: '',
-      columnIsTitle: false,
+          actions: '',
+      isTitle: false,
       ))
           .then(
               (value) => Navigator.of(context).pop(true));
     } else {
-      db
-          .insertTask(JobsCompanion(
-          columnPosition: dr.Value(positionController.text),
-          columnType: dr.Value(selectedJobType!),
-          columnPostedDate: dr.Value(postedDateController.text),
-          columnLastDateToApply: dr.Value(lastDateToApplyController.text),
-          columnCloseDate: dr.Value(closeDateController.text),
-          columnStatus: dr.Value(character.index == 0
-              ? 'Active'
-              : 'InActive'),
-          columnActions: const dr.Value(''),columnIsTitle: const dr.Value(false)))
-          .then(
-              (value) => Navigator.of(context).pop(true));
+      db.getAllJobs().then((value) {
+        db
+            .addJob(JobModel(
+          id: value.length,
+            position: positionController.text,
+            type: selectedJobType!,
+            postedDate: postedDateController.text,
+            lastDateToApply: lastDateToApplyController.text,
+            closeDate: closeDateController.text,
+            status: character.index == 0
+                ? 'Active'
+                : 'InActive',
+            actions: '',isTitle:  false))
+            .then(
+                (value) => Navigator.of(context).pop(true));
+      });
+
     }
   }
 

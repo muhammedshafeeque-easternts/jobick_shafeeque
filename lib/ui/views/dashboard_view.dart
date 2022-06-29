@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jobick_shafeeque/core/moor_database/moor_database.dart';
+import 'package:jobick_shafeeque/core/models/table_model.dart';
 import 'package:jobick_shafeeque/core/res/constants.dart';
 import 'package:jobick_shafeeque/core/res/responsive.dart';
 import 'package:jobick_shafeeque/core/res/size_config.dart';
@@ -186,7 +186,7 @@ class _DashboardViewState extends State<DashboardView> {
   }
 
   void _navigateToAddNewJobScreen(BuildContext context,
-      {bool isEditMode = false, Job? tableRow}) {
+      {bool isEditMode = false, JobModel? tableRow}) {
     showDialog(
         context: context,
         builder: (_) {
@@ -268,56 +268,56 @@ class _DashboardViewState extends State<DashboardView> {
                                         Expanded(
                                             flex: 1,
                                             child: Text(
-                                              item.columnId == 1
+                                              item.id == 1
                                                   ? 'No'
-                                                  : '${item.columnId - 1}',
+                                                  : '${item.id - 1}',
                                               style: TextStyle(
-                                                  fontWeight: item.columnIsTitle
+                                                  fontWeight: item.isTitle
                                                       ? FontWeight.bold
                                                       : FontWeight.w500),
                                             )),
                                         Expanded(
                                             flex: 3,
                                             child: Text(
-                                              item.columnPosition,
+                                              item.position,
                                               style: TextStyle(
-                                                  fontWeight: item.columnIsTitle
+                                                  fontWeight: item.isTitle
                                                       ? FontWeight.w900
                                                       : FontWeight.w500),
                                             )),
                                         Expanded(
                                             flex: 2,
                                             child: Text(
-                                              item.columnType,
+                                              item.type,
                                               style: TextStyle(
-                                                  fontWeight: item.columnIsTitle
+                                                  fontWeight: item.isTitle
                                                       ? FontWeight.bold
                                                       : FontWeight.w500),
                                             )),
                                         Expanded(
                                             flex: 2,
                                             child: Text(
-                                              item.columnPostedDate,
+                                              item.postedDate,
                                               style: TextStyle(
-                                                  fontWeight: item.columnIsTitle
+                                                  fontWeight: item.isTitle
                                                       ? FontWeight.bold
                                                       : FontWeight.w500),
                                             )),
                                         Expanded(
                                             flex: 2,
                                             child: Text(
-                                              item.columnLastDateToApply,
+                                              item.lastDateToApply,
                                               style: TextStyle(
-                                                  fontWeight: item.columnIsTitle
+                                                  fontWeight: item.isTitle
                                                       ? FontWeight.bold
                                                       : FontWeight.w500),
                                             )),
                                         Expanded(
                                             flex: 2,
                                             child: Text(
-                                              item.columnCloseDate,
+                                              item.closeDate,
                                               style: TextStyle(
-                                                  fontWeight: item.columnIsTitle
+                                                  fontWeight: item.isTitle
                                                       ? FontWeight.bold
                                                       : FontWeight.w500),
                                             )),
@@ -331,9 +331,9 @@ class _DashboardViewState extends State<DashboardView> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             36),
-                                                    color: item.columnIsTitle
+                                                    color: item.isTitle
                                                         ? null
-                                                        : item.columnStatus ==
+                                                        : item.status ==
                                                                 'Active'
                                                             ? Colors
                                                                 .green.shade100
@@ -342,16 +342,15 @@ class _DashboardViewState extends State<DashboardView> {
                                                   ),
                                                   child: Center(
                                                     child: Text(
-                                                      item.columnStatus,
+                                                      item.status,
                                                       style: TextStyle(
                                                           fontWeight: item
-                                                                  .columnIsTitle
+                                                                  .isTitle
                                                               ? FontWeight.bold
                                                               : FontWeight.w500,
-                                                          color: item
-                                                                  .columnIsTitle
+                                                          color: item.isTitle
                                                               ? null
-                                                              : item.columnStatus ==
+                                                              : item.status ==
                                                                       'Active'
                                                                   ? Colors.green
                                                                   : Colors
@@ -379,16 +378,14 @@ class _DashboardViewState extends State<DashboardView> {
                                             child: Row(
                                               children: [
                                                 Text(
-                                                  item.columnActions,
+                                                  item.actions,
                                                   style: TextStyle(
-                                                      fontWeight:
-                                                          item.columnIsTitle
-                                                              ? FontWeight.bold
-                                                              : null),
+                                                      fontWeight: item.isTitle
+                                                          ? FontWeight.bold
+                                                          : null),
                                                 ),
                                                 Visibility(
-                                                  visible: item
-                                                      .columnActions.isEmpty,
+                                                  visible: item.actions.isEmpty,
                                                   child: Row(
                                                     children: [
                                                       CustomIconButtonWidget(
@@ -467,27 +464,27 @@ class _DashboardViewState extends State<DashboardView> {
                                                                               children: [
                                                                                 height10(),
                                                                                 Text(
-                                                                                  item.columnPosition,
+                                                                                  item.position,
                                                                                   style: popupItemTextTheme,
                                                                                 ),
                                                                                 height10(),
                                                                                 Text(
-                                                                                  item.columnType,
+                                                                                  item.type,
                                                                                   style: popupItemTextTheme,
                                                                                 ),
                                                                                 height10(),
                                                                                 Text(
-                                                                                  item.columnPostedDate,
+                                                                                  item.postedDate,
                                                                                   style: popupItemTextTheme,
                                                                                 ),
                                                                                 height10(),
                                                                                 Text(
-                                                                                  item.columnLastDateToApply,
+                                                                                  item.lastDateToApply,
                                                                                   style: popupItemTextTheme,
                                                                                 ),
                                                                                 height10(),
                                                                                 Text(
-                                                                                  item.columnCloseDate,
+                                                                                  item.closeDate,
                                                                                   style: popupItemTextTheme,
                                                                                 ),
                                                                                 // height10(),

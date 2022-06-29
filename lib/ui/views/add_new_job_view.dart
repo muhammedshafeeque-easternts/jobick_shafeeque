@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jobick_shafeeque/core/moor_database/moor_database.dart';
+import 'package:jobick_shafeeque/core/models/table_model.dart';
 import 'package:jobick_shafeeque/core/res/constants.dart';
 import 'package:jobick_shafeeque/core/res/responsive.dart';
 import 'package:jobick_shafeeque/core/res/utils.dart';
@@ -11,7 +11,7 @@ import 'base_view.dart';
 
 class AddNewJobView extends StatelessWidget {
   final bool isEditMode;
-  final Job? tableData;
+  final JobModel? tableData;
   const AddNewJobView({Key? key, required this.isEditMode, this.tableData})
       : super(key: key);
 

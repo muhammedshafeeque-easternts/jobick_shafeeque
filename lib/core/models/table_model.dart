@@ -1,12 +1,40 @@
-class TableModel {
-  final int? id;
-  final String? type, position, postedDate,lastDateToApply,closeDate,status,actions;
+
+import 'package:hive/hive.dart';
+part 'table_model.g.dart';
+
+@HiveType(typeId: 0)
+class JobModel extends HiveObject {
+  @HiveField(0)
+  final int id;
+  @HiveField(1)
+  final String type;
+  @HiveField(2)
+  final String position;
+  @HiveField(3)
+  final String postedDate;
+  @HiveField(4)
+  final String lastDateToApply;
+  @HiveField(5)
+  final String closeDate;
+  @HiveField(6)
+  final String status;
+  @HiveField(7)
+  final String actions;
+  @HiveField(8)
   final bool isTitle;
 
-  TableModel({this.type, this.position, this.id, this.postedDate,this.actions,this.closeDate,
-    this.lastDateToApply,this.status,this.isTitle=false});
+  JobModel(
+      {required this.type,
+      required this.position,
+      required this.id,
+      required this.postedDate,
+      required this.actions,
+      required this.closeDate,
+      required this.lastDateToApply,
+      required this.status,
+      required this.isTitle});
 
-  factory TableModel.fromJson(Map<String, dynamic> json) => TableModel(
+/*  factory TableModel.fromJson(Map<String, dynamic> json) => TableModel(
     // offerCodeBanner: List<OfferCodeBanner>.from(json["offer_code_banner"].map((x) => OfferCodeBanner.fromJson(x))),
     id: json["id"],
     position: json["position"],
@@ -29,11 +57,9 @@ class TableModel {
     "status": status,
     "actions": actions,
     "is_title": isTitle?1:0,
-  };
+  };*/
 
 }
-
-
 
 /*final List <TableModel>tableFiles = [
   TableModel(

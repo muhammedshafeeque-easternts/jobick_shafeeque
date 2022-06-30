@@ -116,7 +116,7 @@ class AddNewJobViewModel extends BaseModel {
       db.getAllJobs().then((value) {
         db
             .addJob(JobModel(
-          id: value.length,
+          id: value.length+1,
             position: positionController.text,
             type: selectedJobType!,
             postedDate: postedDateController.text,
